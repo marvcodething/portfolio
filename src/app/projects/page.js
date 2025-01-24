@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconCpu, IconFileCv } from "@tabler/icons-react";
@@ -14,6 +14,17 @@ import schedShot from "@/assets/schedShot.png";
 import mushieShot from "@/assets/mushieShot.png";
 
 export default function Projects() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const navItems = [
     {
       name: "Projects",
@@ -94,6 +105,42 @@ export default function Projects() {
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} />
   ));
+
+  if (isLoading) {
+    return (
+      <div className="overflow-x-hidden min-h-screen">
+        <div className="px-6">
+          <div className="relative z-10">
+            <FloatingNav navItems={navItems} />
+          </div>
+          
+          <div className="animate-pulse">
+            <div className="relative z-0 flex justify-center mt-24 py-8">
+              <div className="h-10 w-64 bg-gray-700 rounded"></div>
+            </div>
+
+            <div className="max-w-[1200px] mx-auto space-y-20 mb-20">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex flex-col md:flex-row items-center justify-center gap-8">
+                  <div className="max-w-xl w-full">
+                    <div className="h-8 w-48 bg-gray-700 rounded mb-4"></div>
+                    <div className="h-24 bg-gray-700 rounded"></div>
+                  </div>
+                  <div className="w-full md:w-[400px] h-[300px] bg-gray-700 rounded"></div>
+                </div>
+              ))}
+            </div>
+
+            <div className="relative z-0 flex justify-center mt-24 pt-8">
+              <div className="h-10 w-64 bg-gray-700 rounded"></div>
+            </div>
+            
+            <div className="h-[400px] bg-gray-700 rounded mt-8"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-x-hidden">
