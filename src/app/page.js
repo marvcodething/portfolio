@@ -7,8 +7,25 @@ import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconCpu, IconFileCv } from "@tabler/icons-react";
 import { GlareCard } from "@/components/ui/glare-card";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
 
 export default function Home() {
+  const [showScroll, setShowScroll] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowScroll(false);
+      } else {
+        setShowScroll(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const navItems = [
     {
       name: "Projects",
@@ -110,6 +127,20 @@ export default function Home() {
               </a>
             </div>
           </div>
+          {showScroll && (
+            <motion.div
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 10 }}
+              transition={{ 
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: 1
+              }}
+              className="absolute bottom-10"
+            >
+              <BsChevronDown className="h-8 w-8 text-stone-300" />
+            </motion.div>
+          )}
         </div>
         <div className="flex justify-center min-h-screen items-center">
           <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl space-y-4 md:space-y-0 md:space-x-8">
