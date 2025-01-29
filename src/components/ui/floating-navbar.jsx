@@ -8,9 +8,11 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const FloatingNav = ({ navItems, className }) => {
   const { scrollYProgress } = useScroll();
+  const pathname = usePathname();
 
   const [visible, setVisible] = useState(true); // Initialize as visible
 
@@ -51,21 +53,21 @@ export const FloatingNav = ({ navItems, className }) => {
         )}
       >
         {navItems.map((navItem, idx) => {
-          const isMiddleItem = idx === Math.floor(navItems.length / 2);
+          const isActive = pathname === navItem.link;
           return (
             <Link
               key={`link=${idx}`}
               href={navItem.link}
               className={cn(
                 "relative text-neutral-50 items-center flex space-x-1 hover:text-neutral-300",
-                isMiddleItem
+                isActive
                   ? "border border-neutral-200 dark:border-white/[0.2] px-4 py-2 rounded-full w-24 flex items-center justify-center"
                   : "w-24 justify-center"
               )}
             >
               <span className="block sm:hidden">{navItem.icon}</span>
               <span className="hidden sm:block text-sm">{navItem.name}</span>
-              {isMiddleItem && (
+              {isActive && (
                 <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-gray-500 to-transparent h-px" />
               )}
             </Link>
