@@ -108,7 +108,7 @@ export default function Projects() {
 
   if (isLoading) {
     return (
-      <div className="overflow-x-hidden min-h-screen">
+      <div className="overflow-x-visible min-h-screen">
         <div className="px-6">
           <div className="relative z-10">
             <FloatingNav navItems={navItems} />
