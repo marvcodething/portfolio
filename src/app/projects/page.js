@@ -17,10 +17,10 @@ export default function Projects() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time
+    // Reduced loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -35,15 +35,11 @@ export default function Projects() {
       name: "Home",
       link: "/",
       icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
-      className: "flex items-center justify-center" // Added className for centering
     },
-    
     {
       name: "Resume",
       link: "/resume",
-      icon: (
-        <IconFileCv className="h-4 w-4 text-neutral-500 dark:text-white" />
-      ),
+      icon: <IconFileCv className="h-4 w-4 text-neutral-500 dark:text-white" />,
     },
   ];
 
@@ -76,7 +72,7 @@ export default function Projects() {
     },
     {
       category: "Productivity",
-      title: "Schedule Manager",
+      title: "Schedule Manager", 
       src: schedShot,
       githubLink: "https://github.com/MA0610/SchedulingWebsite",
       demoLink: null,
@@ -91,7 +87,7 @@ export default function Projects() {
       category: "Gaming",
       title: "Mushie World",
       src: mushieShot,
-      githubLink: "https://github.com/marvcodething/MushieWorld",
+      githubLink: "https://github.com/marvcodething/MushieWorld", 
       demoLink: "https://drive.google.com/drive/folders/13qJ0bTIlSbndu2-mBqmzXxgXUnnKIyAR?usp=drive_link",
       content: <ProjectContent
         description="Law-themed visual novel game built with Ren'Py."
@@ -108,7 +104,7 @@ export default function Projects() {
 
   if (isLoading) {
     return (
-      <div className="overflow-x-visible min-h-screen">
+      <div className="min-h-screen">
         <div className="px-6">
           <div className="relative z-10">
             <FloatingNav navItems={navItems} />
@@ -143,7 +139,7 @@ export default function Projects() {
   }
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="min-h-screen">
       <div className="px-6">
         <div className="relative z-10">
           <FloatingNav navItems={navItems} />
@@ -152,8 +148,8 @@ export default function Projects() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
           className="relative z-0 flex justify-center mt-24 py-8"
         >
           <h1 className="text-4xl font-bold text-white">Cool Stuff I'm Building</h1>
@@ -163,8 +159,8 @@ export default function Projects() {
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
             className="flex flex-col md:flex-row items-center justify-center gap-8"
           >
             <div className="max-w-xl">
@@ -177,6 +173,7 @@ export default function Projects() {
                 alt="Confracted Company Website"
                 width={400}
                 height={300}
+                priority
                 className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl transition-transform hover:scale-105 cursor-pointer"
               />
             </a>
@@ -185,8 +182,8 @@ export default function Projects() {
           <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
             className="flex flex-col md:flex-row items-center justify-center gap-8"
           >
             <div className="max-w-xl">
@@ -199,6 +196,7 @@ export default function Projects() {
                 alt="ROSE Website"
                 width={400}
                 height={300}
+                priority
                 className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl transition-transform hover:scale-105 cursor-pointer"
               />
             </a>
@@ -207,8 +205,8 @@ export default function Projects() {
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
             className="flex flex-col md:flex-row items-center justify-center gap-8"
           >
             <div className="max-w-xl">
@@ -221,6 +219,7 @@ export default function Projects() {
                 alt="Blockchain Analytics"
                 width={400}
                 height={300}
+                priority
                 className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl"
               />
             </div>
@@ -230,17 +229,20 @@ export default function Projects() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.5 }}
-          className="relative z-0 flex justify-center mt-24 pt-8"
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
+          className="relative z-0 flex flex-col items-center mt-24 pt-8 space-y-2"
         >
           <h1 className="text-4xl font-bold text-white">Cool Stuff I've Built</h1>
+          <a href="/videos" className="text-gray-400 hover:text-white transition-colors">
+            Check out my video projects →
+          </a>
         </motion.div>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
           className="pb-20"
         >
           <Carousel items={cards}/>
@@ -270,6 +272,7 @@ const ProjectContent = ({ description, image, githubLink, demoLink }) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
+            
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -282,13 +285,14 @@ const ProjectContent = ({ description, image, githubLink, demoLink }) => {
         href={demoLink}
         target="_blank" 
         rel="noopener noreferrer"
-        className="block w-full h-[200px] sm:h-[300px] md:h-[400px]" // Added fixed heights for different breakpoints
+        className="block w-full h-[200px] sm:h-[300px] md:h-[400px]"
       >
         <Image
           src={image}
           alt="Project screenshot"
           width={800}
           height={400}
+          priority
           className="w-full h-full object-contain rounded-lg transition-transform hover:scale-105"
         />
       </a>
