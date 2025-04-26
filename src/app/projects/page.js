@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carousel";
@@ -12,35 +12,25 @@ import twitShot from "@/assets/twitShot.png";
 import loanPic from "@/assets/loanPic.png";
 import schedShot from "@/assets/schedShot.png";
 import mushieShot from "@/assets/mushieShot.png";
+//import stompyShot from "@/assets/stompShot.png";
+import retroShot from "@/assets/retroShot.png";
+import noteShot from "@/assets/noteShot.png";
+
 
 export default function Projects() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Reduced loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 500);
-
     return () => clearTimeout(timer);
   }, []);
 
   const navItems = [
-    {
-      name: "Projects",
-      link: "/projects",
-      icon: <IconCpu className="h-4 w-4 text-neutral-500 dark:text-white" />,
-    },
-    {
-      name: "Home",
-      link: "/",
-      icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
-    },
-    {
-      name: "Resume",
-      link: "/resume",
-      icon: <IconFileCv className="h-4 w-4 text-neutral-500 dark:text-white" />,
-    },
+    { name: "Projects", link: "/projects", icon: <IconCpu className="h-4 w-4 text-neutral-500 dark:text-white" /> },
+    { name: "Home", link: "/", icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" /> },
+    { name: "Resume", link: "/resume", icon: <IconFileCv className="h-4 w-4 text-neutral-500 dark:text-white" /> },
   ];
 
   const data = [
@@ -58,7 +48,34 @@ export default function Projects() {
       />,
     },
     {
-      category: "Finance", 
+      category: "Interactive Media",
+      title: "Notes App Interactive Documentary",
+      src: noteShot,
+      githubLink: "https://github.com/marvcodething/notesapp",
+      demoLink: "https://notesapp-phi-gilt.vercel.app",
+      content: <ProjectContent 
+        description="An interactive documentary presented through a notes app-style interface. Built with Next.js and React, exploring themes of memory, organization, and digital intimacy."
+        image={noteShot}
+        githubLink="https://github.com/marvcodething/notesapp"
+        demoLink="https://notesapp-phi-gilt.vercel.app"
+      />,
+    },
+    
+    {
+      category: "Web Development",
+      title: "ROSE Website",
+      src: rose,
+      githubLink: "https://github.com/marvcodething/rose-website", // Optional, if you have the repo public
+      demoLink: "https://rose-union.org",
+      content: <ProjectContent
+        description="Official website for the Rising Occidental Student Employees (ROSE) union. Built with React and TailwindCSS, featuring a comprehensive updates portal and responsive design."
+        image={rose}
+        githubLink="https://github.com/marvcodething/rose-website" // Optional
+        demoLink="https://rose-union.org"
+      />,
+    },
+    {
+      category: "Finance",
       title: "Loan Calculator",
       src: loanPic,
       githubLink: "https://github.com/marvcodething/loanPrediction",
@@ -72,12 +89,12 @@ export default function Projects() {
     },
     {
       category: "Productivity",
-      title: "Schedule Manager", 
+      title: "Schedule Manager",
       src: schedShot,
       githubLink: "https://github.com/MA0610/SchedulingWebsite",
       demoLink: null,
       content: <ProjectContent
-        description="A scheduling application to help the Occidental College BioChem deparement manage class scheduling. Built with HTML, CSS, JavaScript, Flask, and SQLAlchemy."
+        description="A scheduling application to help the Occidental College BioChem department manage class scheduling. Built with HTML, CSS, JavaScript, Flask, and SQLAlchemy."
         image={schedShot}
         githubLink="https://github.com/MA0610/SchedulingWebsite"
         demoLink={null}
@@ -87,7 +104,7 @@ export default function Projects() {
       category: "Gaming",
       title: "Mushie World",
       src: mushieShot,
-      githubLink: "https://github.com/marvcodething/MushieWorld", 
+      githubLink: "https://github.com/marvcodething/MushieWorld",
       demoLink: "https://drive.google.com/drive/folders/13qJ0bTIlSbndu2-mBqmzXxgXUnnKIyAR?usp=drive_link",
       content: <ProjectContent
         description="Law-themed visual novel game built with Ren'Py."
@@ -95,46 +112,18 @@ export default function Projects() {
         githubLink="https://github.com/marvcodething/MushieWorld"
         demoLink="https://drive.google.com/drive/folders/13qJ0bTIlSbndu2-mBqmzXxgXUnnKIyAR?usp=drive_link"
       />,
-    }
+    },
+    
+    
   ];
 
   const cards = data.map((card, index) => (
-    <Card key={card.src} card={card} index={index} />
+    <Card key={index} card={card} index={index} />
   ));
 
   if (isLoading) {
     return (
-      <div className="min-h-screen">
-        <div className="px-6">
-          <div className="relative z-10">
-            <FloatingNav navItems={navItems} />
-          </div>
-          
-          <div className="animate-pulse">
-            <div className="relative z-0 flex justify-center mt-24 py-8">
-              <div className="h-10 w-64 bg-gray-700 rounded"></div>
-            </div>
-
-            <div className="max-w-[1200px] mx-auto space-y-20 mb-20">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex flex-col md:flex-row items-center justify-center gap-8">
-                  <div className="max-w-xl w-full">
-                    <div className="h-8 w-48 bg-gray-700 rounded mb-4"></div>
-                    <div className="h-24 bg-gray-700 rounded"></div>
-                  </div>
-                  <div className="w-full md:w-[400px] h-[300px] bg-gray-700 rounded"></div>
-                </div>
-              ))}
-            </div>
-
-            <div className="relative z-0 flex justify-center mt-24 pt-8">
-              <div className="h-10 w-64 bg-gray-700 rounded"></div>
-            </div>
-            
-            <div className="h-[400px] bg-gray-700 rounded mt-8"></div>
-          </div>
-        </div>
-      </div>
+      <div className="min-h-screen">{/* your skeleton loading screen */}</div>
     );
   }
 
@@ -144,7 +133,8 @@ export default function Projects() {
         <div className="relative z-10">
           <FloatingNav navItems={navItems} />
         </div>
-        
+
+        {/* Cool Stuff I'm Building */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -156,6 +146,41 @@ export default function Projects() {
         </motion.div>
 
         <div className="max-w-[1200px] mx-auto space-y-20 mb-20">
+
+          
+
+          {/* stomping ground*/}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-8"
+          >
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">stomping ground</h2>
+              <p className="text-gray-300">Currently designing and curating an interactive multimedia documentary experience about shared living spaces. Directing and filming all content. Utilizing Next.js, Phaser.js, and React Sphere Viewer for the interface. Release set to May 10th 2025.</p>
+            </div>
+            <div className="w-full md:w-[400px] h-[300px] bg-gray-700 rounded-lg flex items-center justify-center text-gray-400">
+              Coming Soon
+            </div>
+          </motion.div>
+
+          {/* Placeholder 2 */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-8"
+          >
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">Escape8</h2>
+              <p className="text-gray-300">Creating a full length polemical game with 3d and 2d mixed gameplay in Unity. Self designing all game mechanics and art. Set to release May 8th 2025.</p>
+            </div>
+            <Image src={retroShot} alt="Confracted Company" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
+          </motion.div>
+          {/* Confracted */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -165,67 +190,16 @@ export default function Projects() {
           >
             <div className="max-w-xl">
               <h2 className="text-2xl font-bold text-white mb-4">Confracted Company</h2>
-              <p className="text-gray-300">Building a clothing brand centered on mental health and suicide prevention. Responsible for creative direction and design. Creating the brand website using Next.js, Tailwind, Medusa, and more.</p>
+              <p className="text-gray-300">Building a clothing brand centered on mental health and suicide prevention. Responsible for creative direction, branding, and e-commerce development.</p>
             </div>
             <a href="https://confracted.co" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto">
-              <Image 
-                src={confracted}
-                alt="Confracted Company Website"
-                width={400}
-                height={300}
-                priority
-                className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl transition-transform hover:scale-105 cursor-pointer"
-              />
+              <Image src={confracted} alt="Confracted Company" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
             </a>
           </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-8"
-          >
-            <div className="max-w-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">ROSE Website</h2>
-              <p className="text-gray-300">Leading development of ROSE's (Rising Occidental Student Employees) official website - empowering student workers through accessible information and collective action tools. Built with React and Tailwind CSS, featuring a comprehensive bargaining updates portal and detailed resources about workplace rights, union membership, and ongoing campaigns. Implemented responsive design to ensure information remains accessible across all devices.</p>
-            </div>
-            <a href="https://rose-union.org" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto">
-              <Image 
-                src={rose}
-                alt="ROSE Website"
-                width={400}
-                height={300}
-                priority
-                className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl transition-transform hover:scale-105 cursor-pointer"
-              />
-            </a>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-8"
-          >
-            <div className="max-w-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">The Buddy System</h2>
-              <p className="text-gray-300">Full-Stack Development of a small business organizational tool (details limited for confidentiality). Built with React, Next.js, Tailwind, MongoDB, and more.</p>
-            </div>
-            <div className="w-full md:w-auto">
-              <Image 
-                src={buddysystem}
-                alt="Blockchain Analytics"
-                width={400}
-                height={300}
-                priority
-                className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl"
-              />
-            </div>
-          </motion.div>
         </div>
 
+        {/* Cool Stuff I've Built */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -238,6 +212,8 @@ export default function Projects() {
             Check out my video projects →
           </a>
         </motion.div>
+
+        {/* Carousel of completed projects */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -245,57 +221,25 @@ export default function Projects() {
           transition={{ duration: 0.3 }}
           className="pb-20"
         >
-          <Carousel items={cards}/>
+          <Carousel items={cards} />
         </motion.div>
       </div>
     </div>
   );
 }
 
-const ProjectContent = ({ description, image, githubLink, demoLink }) => {
-  return (
-    <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-8 md:p-14 rounded-3xl mb-4">
-      <div className="flex justify-between items-center mb-8">
-        <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-xl font-sans max-w-3xl">
-          {description}
-        </p>
-        <a 
-          href={githubLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-          </svg>
-        </a>
-      </div>
-      <a 
-        href={demoLink}
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="block w-full h-[200px] sm:h-[300px] md:h-[400px]"
-      >
-        <Image
-          src={image}
-          alt="Project screenshot"
-          width={800}
-          height={400}
-          priority
-          className="w-full h-full object-contain rounded-lg transition-transform hover:scale-105"
-        />
+const ProjectContent = ({ description, image, githubLink, demoLink }) => (
+  <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-8 md:p-14 rounded-3xl mb-4">
+    <div className="flex justify-between items-center mb-8">
+      <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-xl font-sans max-w-3xl">
+        {description}
+      </p>
+      <a href={githubLink} target="_blank" rel="noopener noreferrer" className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
       </a>
     </div>
-  );
-};
+    <a href={demoLink} target="_blank" rel="noopener noreferrer" className="block w-full h-[200px] sm:h-[300px] md:h-[400px]">
+      <Image src={image} alt="Project screenshot" width={800} height={400} priority className="w-full h-full object-contain rounded-lg hover:scale-105 transition-transform" />
+    </a>
+  </div>
+);
