@@ -153,7 +153,7 @@ export default function Projects() {
           >
             <div className="max-w-xl">
               <h2 className="text-2xl font-bold text-white mb-4">stomping ground</h2>
-              <p className="text-gray-300">Currently designing and curating an interactive multimedia documentary experience about shared living spaces. Directing and filming all content. Utilizing Next.js, Phaser.js, and React Sphere Viewer for the interface. Release set to May 10th 2025.</p>
+              <p className="text-gray-300">Students explore identity, intimacy, and shared meaning through the spaces they live in and the communities they build inside them. Multimedia project built in Next.js with Phaser.js and React Sphere Viewer.</p>
             </div>
             <Link href="https://stomping.site" target="_blank" rel="noopener noreferrer">
             <Image src={stompShot} alt="Confracted Company" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
