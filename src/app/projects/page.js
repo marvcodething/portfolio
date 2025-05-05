@@ -15,7 +15,8 @@ import mushieShot from "@/assets/mushieShot.png";
 //import stompyShot from "@/assets/stompShot.png";
 import retroShot from "@/assets/retroShot.png";
 import noteShot from "@/assets/noteShot.png";
-
+import stompShot from "@/assets/stompShot.jpg"
+import Link from "next/link"
 
 export default function Projects() {
   const [isLoading, setIsLoading] = useState(true);
@@ -133,6 +134,32 @@ export default function Projects() {
         <div className="relative z-10">
           <FloatingNav navItems={navItems} />
         </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
+          className="relative z-0 flex justify-center mt-24 py-8"
+        >
+          <h1 className="text-4xl font-bold text-white">Project Spotlight</h1>
+        </motion.div>
+        <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-8"
+          >
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">stomping ground</h2>
+              <p className="text-gray-300">Currently designing and curating an interactive multimedia documentary experience about shared living spaces. Directing and filming all content. Utilizing Next.js, Phaser.js, and React Sphere Viewer for the interface. Release set to May 10th 2025.</p>
+            </div>
+            <Link href="https://stomping.site" target="_blank" rel="noopener noreferrer">
+            <Image src={stompShot} alt="Confracted Company" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
+            </Link>
+          </motion.div>
+        
 
         {/* Cool Stuff I'm Building */}
         <motion.div 
@@ -147,24 +174,7 @@ export default function Projects() {
 
         <div className="max-w-[1200px] mx-auto space-y-20 mb-20">
 
-          
-
-          {/* stomping ground*/}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-8"
-          >
-            <div className="max-w-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">stomping ground</h2>
-              <p className="text-gray-300">Currently designing and curating an interactive multimedia documentary experience about shared living spaces. Directing and filming all content. Utilizing Next.js, Phaser.js, and React Sphere Viewer for the interface. Release set to May 10th 2025.</p>
-            </div>
-            <div className="w-full md:w-[400px] h-[300px] bg-gray-700 rounded-lg flex items-center justify-center text-gray-400">
-              Coming Soon
-            </div>
-          </motion.div>
+      
 
           {/* Placeholder 2 */}
           <motion.div 
