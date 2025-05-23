@@ -61,17 +61,16 @@ export default function Projects() {
         demoLink="https://notesapp-phi-gilt.vercel.app"
       />,
     },
-    
     {
       category: "Web Development",
       title: "ROSE Website",
       src: rose,
-      githubLink: "https://github.com/marvcodething/rose-website", // Optional, if you have the repo public
+      githubLink: "https://github.com/marvcodething/rose-website",
       demoLink: "https://rose-union.org",
       content: <ProjectContent
         description="Official website for the Rising Occidental Student Employees (ROSE) union. Built with React and TailwindCSS, featuring a comprehensive updates portal and responsive design."
         image={rose}
-        githubLink="https://github.com/marvcodething/rose-website" // Optional
+        githubLink="https://github.com/marvcodething/rose-website"
         demoLink="https://rose-union.org"
       />,
     },
@@ -114,8 +113,19 @@ export default function Projects() {
         demoLink="https://drive.google.com/drive/folders/13qJ0bTIlSbndu2-mBqmzXxgXUnnKIyAR?usp=drive_link"
       />,
     },
-    
-    
+    {
+      category: "Gaming",
+      title: "Escape8",
+      src: retroShot,
+      githubLink: null,
+      demoLink: null,
+      content: <ProjectContent
+        description="A full length polemical game with 3d and 2d mixed gameplay in Unity. Self designing all game mechanics and art. Set to release May 8th 2025."
+        image={retroShot}
+        githubLink={null}
+        demoLink={null}
+      />,
+    },
   ];
 
   const cards = data.map((card, index) => (
@@ -173,23 +183,6 @@ export default function Projects() {
         </motion.div>
 
         <div className="max-w-[1200px] mx-auto space-y-20 mb-20">
-
-      
-
-          {/* Placeholder 2 */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-8"
-          >
-            <div className="max-w-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">Escape8</h2>
-              <p className="text-gray-300">Creating a full length polemical game with 3d and 2d mixed gameplay in Unity. Self designing all game mechanics and art. Set to release May 8th 2025.</p>
-            </div>
-            <Image src={retroShot} alt="Confracted Company" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
-          </motion.div>
           {/* Confracted */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
@@ -207,6 +200,20 @@ export default function Projects() {
             </a>
           </motion.div>
 
+          {/* BuddySystem */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-8"
+          >
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">BuddySystem</h2>
+              <p className="text-gray-300">A platform for small business management. Built with Next.js, Node.js, Ably, and Supabase.</p>
+            </div>
+            <Image src={buddysystem} alt="BuddySystem" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
+          </motion.div>
         </div>
 
         {/* Cool Stuff I've Built */}
