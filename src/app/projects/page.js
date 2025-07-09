@@ -6,7 +6,8 @@ import { FloatingNav } from "@/components/ui/floating-navbar";
 import { IconHome, IconCpu, IconFileCv } from "@tabler/icons-react";
 import rose from "@/assets/rose.png";
 import confracted from "@/assets/confracted.png";
-import buddysystem from "@/assets/buddysystem.jpg";
+import studyspotraster from "@/assets/studyspotraster.png";
+import marketcanvas from "@/assets/marketcanvas.png";
 import { motion } from "framer-motion";
 import twitShot from "@/assets/twitShot.png";
 import loanPic from "@/assets/loanPic.png";
@@ -183,6 +184,37 @@ export default function Projects() {
         </motion.div>
 
         <div className="max-w-[1200px] mx-auto space-y-20 mb-20">
+
+          {/* StudySpot */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-8"
+          >
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">StudySpot</h2>
+              <p className="text-gray-300">A collaborative study platform that helps students find and share study spaces, organize study groups, and track their progress. Built with modern web technologies.</p>
+            </div>
+            <Image src={studyspotraster} alt="StudySpot" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
+          </motion.div>
+
+          {/* DOJi MarketCanvas */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col md:flex-row items-center justify-center gap-8"
+          >
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-bold text-white mb-4">DOJi MarketCanvas</h2>
+              <p className="text-gray-300">A comprehensive market analysis tool for businesses to create and analyze their market canvas, built with modern web technologies for strategic planning.</p>
+            </div>
+            <Image src={marketcanvas} alt="DOJi MarketCanvas" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
+          </motion.div>
+
           {/* Confracted */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
@@ -200,20 +232,6 @@ export default function Projects() {
             </a>
           </motion.div>
 
-          {/* BuddySystem */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col md:flex-row items-center justify-center gap-8"
-          >
-            <div className="max-w-xl">
-              <h2 className="text-2xl font-bold text-white mb-4">BuddySystem</h2>
-              <p className="text-gray-300">A platform for small business management. Built with Next.js, Node.js, Ably, and Supabase.</p>
-            </div>
-            <Image src={buddysystem} alt="BuddySystem" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
-          </motion.div>
         </div>
 
         {/* Cool Stuff I've Built */}
