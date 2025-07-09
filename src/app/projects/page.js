@@ -197,7 +197,9 @@ export default function Projects() {
               <h2 className="text-2xl font-bold text-white mb-4">StudySpot</h2>
               <p className="text-gray-300">A collaborative study platform that helps students find and share study spaces, organize study groups, and track their progress. Built with modern web technologies.</p>
             </div>
-            <Image src={studyspotraster} alt="StudySpot" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
+            <a href="https://studyspotapp.com" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto">
+              <Image src={studyspotraster} alt="StudySpot" width={400} height={300} priority className="w-full h-[250px] md:w-[400px] md:h-[300px] object-cover rounded-lg shadow-xl hover:scale-105 transition-transform" />
+            </a>
           </motion.div>
 
           {/* DOJi MarketCanvas */}
