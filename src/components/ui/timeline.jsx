@@ -41,7 +41,7 @@ export const Timeline = ({
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-gray-100 text-sm md:text-base max-w-sm">
-          Here is a timeline of the organizations I have worked for.
+          Here is a timeline of the organizations I have worked for. <span className="text-gray-500 text-xs">(I've also worked in foodservice since I was 14 if you want to know more about that email me!)</span>
         </motion.p>
       </div>
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
@@ -96,13 +96,13 @@ export const Timeline = ({
           style={{
             height: height + "px",
           }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-gray-500 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] ">
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-pink-500 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] ">
           <motion.div
             style={{
               height: heightTransform,
               opacity: opacityTransform,
             }}
-            className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-gray-500 via-gray-200 to-transparent from-[0%] via-[10%] rounded-full" />
+            className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-pink-500 via-cyan-400 to-transparent from-[0%] via-[10%] rounded-full" />
         </div>
       </div>
     </div>)
