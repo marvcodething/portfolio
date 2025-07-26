@@ -39,3 +39,27 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI/Claude and other LLMs
+claude.log
+claude/
+claude-*
+*.llm.log
+*.llm.json
+
+# VSCode
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# Log files
+*.log
+
+# Env files
+.env*
+
+# Editor swap/backup files
+*~
+*.swp
+*.swo
