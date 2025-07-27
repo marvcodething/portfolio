@@ -97,6 +97,14 @@ function formatLinksInResponse(text) {
   formattedText = formattedText.replace(/rel="noopener noreferrer"/g, '');
   formattedText = formattedText.replace(/style="[^"]*"/g, '');
   
+  // Remove any existing link text that might be duplicated
+  Object.values(urlMappings).forEach(displayName => {
+    // Remove any existing link text followed by malformed HTML
+    formattedText = formattedText.replace(new RegExp(`${displayName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>[^<]*`, 'g'), displayName);
+    // Remove any existing link text with HTML attributes
+    formattedText = formattedText.replace(new RegExp(`${displayName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^>]*>`, 'g'), displayName);
+  });
+  
   // Process each URL mapping
   Object.entries(urlMappings).forEach(([url, displayName]) => {
     // Create patterns for both with and without https://
@@ -194,7 +202,9 @@ Instructions:
 - NEVER use any HTML tags, markdown, or formatting in your responses
 - NEVER include quotes around URLs or any special characters
 - NEVER include HTML attributes, styles, or any markup
+- NEVER write link text like "My LinkedIn" or "My GitHub Profile" - only write the raw URLs
 - Write all links as simple text URLs that the system will automatically convert
+- DO NOT create any link text or descriptions - just the URLs
 
 User question: ${query}`;
 
