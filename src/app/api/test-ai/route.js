@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export async function POST(request) {
   try {
@@ -9,18 +9,16 @@ export async function POST(request) {
       );
     }
 
-    const ai = new GoogleGenAI({});
+    const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
     const { prompt } = await request.json();
     
     const testPrompt = prompt || "Hello! Please respond with a brief, friendly message about AI and technology. Keep it under 50 words.";
 
-    const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
-      contents: testPrompt,
-    });
+    const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const response = await model.generateContent(testPrompt);
 
-    const text = response.text;
+    const text = response.response.text();
 
     return Response.json({
       success: true,

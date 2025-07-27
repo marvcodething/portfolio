@@ -4,10 +4,51 @@ import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import portrait from "@/assets/portrait.png";
 
-// HTML sanitization function to prevent XSS
+// HTML sanitization function to prevent XSS while preserving safe HTML
 function sanitizeHTML(html) {
-  const div = document.createElement('div');
-  div.textContent = html;
+  // Only allow specific safe HTML tags and attributes
+  const allowedTags = {
+    a: ["href", "target", "rel", "style"],
+    br: [],
+    strong: [],
+    em: [],
+    b: [],
+    i: [],
+  };
+
+  const div = document.createElement("div");
+  div.innerHTML = html;
+
+  // Remove all tags except allowed ones
+  const walker = document.createTreeWalker(
+    div,
+    NodeFilter.SHOW_ELEMENT,
+    null,
+    false
+  );
+
+  const nodesToRemove = [];
+  let node;
+
+  while ((node = walker.nextNode())) {
+    const tagName = node.tagName.toLowerCase();
+    if (!allowedTags[tagName]) {
+      nodesToRemove.push(node);
+    } else {
+      // Remove disallowed attributes
+      const allowedAttrs = allowedTags[tagName];
+      for (let i = node.attributes.length - 1; i >= 0; i--) {
+        const attr = node.attributes[i];
+        if (!allowedAttrs.includes(attr.name)) {
+          node.removeAttribute(attr.name);
+        }
+      }
+    }
+  }
+
+  // Remove disallowed nodes
+  nodesToRemove.forEach((node) => node.remove());
+
   return div.innerHTML;
 }
 
@@ -219,7 +260,9 @@ export default function Chat() {
                     >
                       <div
                         className="text-base leading-relaxed prose prose-stone max-w-none"
-                        dangerouslySetInnerHTML={{ __html: sanitizeHTML(message.text) }}
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHTML(message.text),
+                        }}
                       />
                     </div>
                   </div>
