@@ -36,6 +36,19 @@ export default function Projects() {
 
   const data = [
     {
+      category: "AI/ML",
+      title: "AI-Powered Legal Contract Analysis",
+      src: noteShot, // Using noteShot as placeholder until we have a specific image
+      githubLink: "https://github.com/marvcodething/international_law_model",
+      demoLink: null,
+      content: <ProjectContent 
+        description="Open-source, fullstack, enterprise-grade legal contract analysis platform using multi-agentic system architecture. Built with FastAPI backend, fine-tuned BERT models, transformer-based LLMs, and RAG pipelines for intelligent clause classification, context-aware summarization, and risk stratification."
+        image={noteShot}
+        githubLink="https://github.com/marvcodething/international_law_model"
+        demoLink={null}
+      />,
+    },
+    {
       category: "Social Media",
       title: "Twitter Clone",
       src: twitShot,

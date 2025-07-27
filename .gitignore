@@ -46,6 +46,20 @@ claude/
 claude-*
 *.llm.log
 *.llm.json
+.claude/
+.claude-*
+anthropic/
+anthropic-*
+*.anthropic
+*.claude
+claude_*
+anthropic_*
+.cursor/
+cursor/
+*.cursor
+.copilot/
+copilot/
+*.copilot
 
 # VSCode
 .vscode/
