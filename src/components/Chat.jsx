@@ -4,52 +4,59 @@ import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import portrait from "@/assets/portrait.png";
 
-// HTML sanitization function to prevent XSS while preserving safe HTML
-function sanitizeHTML(html) {
-  // Only allow specific safe HTML tags and attributes
-  const allowedTags = {
-    a: ["href", "target", "rel", "style"],
-    br: [],
-    strong: [],
-    em: [],
-    b: [],
-    i: [],
+// Function to convert URLs in text to clickable links
+function formatTextWithLinks(text) {
+  // URL mappings for known links
+  const urlMappings = {
+    'github.com/marvcodething/international_law_model': 'Legal AI Platform (GitHub)',
+    'github.com/marvcodething/twitter-clone': 'Twitter Clone (GitHub)', 
+    'github.com/marvcodething/notesapp': 'Notes App (GitHub)',
+    'github.com/marvcodething/rose-website': 'ROSE Website (GitHub)',
+    'github.com/marvcodething/loanPrediction': 'Loan Calculator (GitHub)',
+    'github.com/MA0610/SchedulingWebsite': 'Schedule Manager (GitHub)',
+    'github.com/marvcodething/MushieWorld': 'Mushie World (GitHub)',
+    'github.com/marvcodething': 'My GitHub Profile',
+    'studyspotapp.com': 'StudySpot',
+    'stomping.site': 'stomping ground',
+    'rose-union.org': 'ROSE Union',
+    'marvinromero.online': 'My Portfolio',
+    'twitter-clone-lxyw.onrender.com/login': 'Twitter Clone (Live Demo)',
+    'notesapp-phi-gilt.vercel.app': 'Notes App (Live Demo)',
+    'loanprediction-rxir.onrender.com': 'Loan Calculator (Live Demo)',
+    'linkedin.com/in/marvin-romero': 'My LinkedIn',
+    'www.linkedin.com/in/marvin-romero': 'My LinkedIn'
   };
 
-  const div = document.createElement("div");
-  div.innerHTML = html;
+  let formattedText = text;
+  
+  // First, remove any existing HTML artifacts completely
+  formattedText = formattedText.replace(/<[^>]*>/g, '');
+  formattedText = formattedText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*"[^"]*"/gi, '');
+  formattedText = formattedText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*'[^']*'/gi, '');
+  formattedText = formattedText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*[^\s"'>]*/gi, '');
+  formattedText = formattedText.replace(/[<>"']/g, '');
+  
+  // Fix common text artifacts from AI generation
+  formattedText = formattedText.replace(/My LinkedIn/gi, 'www.linkedin.com/in/marvin-romero');
+  formattedText = formattedText.replace(/My GitHub Profile/gi, 'github.com/marvcodething');
+  formattedText = formattedText.replace(/My GitHub/gi, 'github.com/marvcodething');
+  formattedText = formattedText.replace(/My Portfolio/gi, 'marvinromero.online');
+  
+  // Process each URL mapping
+  Object.entries(urlMappings).forEach(([url, displayName]) => {
+    const escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(`\\b(?:https?://)?(${escapedUrl})(?!.*</a>)\\b`, 'gi');
+    
+    formattedText = formattedText.replace(pattern, (match) => {
+      const href = match.startsWith('http') ? match : `https://${match}`;
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer" style="color: #ec4899; text-decoration: underline;">${displayName}</a>`;
+    });
+  });
 
-  // Remove all tags except allowed ones
-  const walker = document.createTreeWalker(
-    div,
-    NodeFilter.SHOW_ELEMENT,
-    null,
-    false
-  );
+  // Remove standalone "www." that appears before links (AFTER link creation)
+  formattedText = formattedText.replace(/www\.\s*(<a[^>]*>My LinkedIn<\/a>)/gi, '$1');
 
-  const nodesToRemove = [];
-  let node;
-
-  while ((node = walker.nextNode())) {
-    const tagName = node.tagName.toLowerCase();
-    if (!allowedTags[tagName]) {
-      nodesToRemove.push(node);
-    } else {
-      // Remove disallowed attributes
-      const allowedAttrs = allowedTags[tagName];
-      for (let i = node.attributes.length - 1; i >= 0; i--) {
-        const attr = node.attributes[i];
-        if (!allowedAttrs.includes(attr.name)) {
-          node.removeAttribute(attr.name);
-        }
-      }
-    }
-  }
-
-  // Remove disallowed nodes
-  nodesToRemove.forEach((node) => node.remove());
-
-  return div.innerHTML;
+  return formattedText;
 }
 
 export default function Chat() {
@@ -144,18 +151,18 @@ export default function Chat() {
           displayedMessages.length > 0 ? "overflow-y-auto" : "overflow-hidden"
         }`}
       >
-        <div className="max-w-4xl mx-auto space-y-4 py-4">
+        <div className="max-w-4xl mx-auto space-y-2 md:space-y-4 py-2 md:py-4">
           {displayedMessages.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center justify-center h-full px-4"
+              className="flex flex-col items-center justify-start md:justify-center h-full px-2 md:px-4"
             >
-              <div className="text-center mb-8">
-                <div className="mb-4">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-stone-600 to-stone-700 rounded-2xl flex items-center justify-center mb-4">
+              <div className="text-center mb-4 md:mb-8">
+                <div className="mb-2 md:mb-4">
+                  <div className="w-12 h-12 md:w-16 md:h-16 mx-auto bg-gradient-to-br from-stone-600 to-stone-700 rounded-2xl flex items-center justify-center mb-2 md:mb-4">
                     <svg
-                      className="w-8 h-8 text-stone-300"
+                      className="w-6 h-6 md:w-8 md:h-8 text-stone-300"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -169,20 +176,20 @@ export default function Chat() {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-stone-300 mb-2">
+                <h3 className="text-lg md:text-xl font-semibold text-stone-300 mb-1 md:mb-2">
                   Start a conversation
                 </h3>
-                <p className="text-stone-500 text-lg mb-6">
+                <p className="text-stone-500 text-base md:text-lg mb-4 md:mb-6">
                   Ask me anything to get started
                 </p>
               </div>
 
               {/* Suggested Questions */}
               <div className="w-full max-w-2xl">
-                <p className="text-stone-400 text-sm mb-4 text-center">
+                <p className="text-stone-400 text-xs md:text-sm mb-2 md:mb-4 text-center">
                   Try asking:
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                   {suggestedQuestions.map((question, index) => (
                     <motion.button
                       key={index}
@@ -190,11 +197,11 @@ export default function Chat() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 * index }}
                       onClick={() => handleSuggestedQuestion(question)}
-                      className="bg-stone-800/50 hover:bg-stone-700/70 border border-stone-600/50 hover:border-pink-500/60 text-stone-300 hover:text-white rounded-lg px-4 py-3 text-left text-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(236,72,153,0.3),0_0_40px_rgba(34,211,238,0.2)] relative group before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-pink-500/5 before:via-cyan-400/5 before:to-pink-500/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
+                      className="bg-stone-800/50 hover:bg-stone-700/70 border border-stone-600/50 hover:border-pink-500/60 text-stone-300 hover:text-white rounded-lg px-3 py-2 md:px-4 md:py-3 text-left text-xs md:text-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(236,72,153,0.3),0_0_40px_rgba(34,211,238,0.2)] relative group before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-pink-500/5 before:via-cyan-400/5 before:to-pink-500/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
                     >
                       <div className="flex items-center">
                         <svg
-                          className="w-4 h-4 mr-2 opacity-60"
+                          className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2 opacity-60"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -261,7 +268,7 @@ export default function Chat() {
                       <div
                         className="text-base leading-relaxed prose prose-stone max-w-none"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(message.text),
+                          __html: formatTextWithLinks(message.text),
                         }}
                       />
                     </div>
@@ -313,14 +320,14 @@ export default function Chat() {
       </div>
 
       {/* Gradient Mask to hide content beneath input */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-10" />
 
       {/* Floating Input */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="absolute bottom-4 left-4 right-4 md:left-8 md:right-8 lg:left-16 lg:right-16 xl:left-32 xl:right-32 z-20"
+        className="absolute bottom-2 md:bottom-4 left-2 right-2 md:left-8 md:right-8 lg:left-16 lg:right-16 xl:left-32 xl:right-32 z-20"
       >
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit}>
@@ -330,19 +337,19 @@ export default function Chat() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Message AI..."
-                className="w-full bg-stone-800/90 backdrop-blur-xl text-stone-100 border border-stone-600/50 rounded-3xl px-6 py-4 pr-14 text-lg placeholder-stone-400 focus:outline-none focus:border-stone-500 focus:bg-stone-800 shadow-2xl shadow-black/20 transition-all duration-200"
+                className="w-full bg-stone-800/90 backdrop-blur-xl text-stone-100 border border-stone-600/50 rounded-3xl px-4 py-3 pr-12 md:px-6 md:py-4 md:pr-14 text-base md:text-lg placeholder-stone-400 focus:outline-none focus:border-stone-500 focus:bg-stone-800 shadow-2xl shadow-black/20 transition-all duration-200"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !inputValue.trim()}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-gradient-to-r from-pink-500 to-cyan-400 hover:from-pink-400 hover:to-cyan-300 disabled:bg-stone-600 disabled:cursor-not-allowed text-white rounded-full flex items-center justify-center transition-all duration-300 shadow-lg disabled:shadow-none hover:shadow-[0_0_20px_rgba(236,72,153,0.5),0_0_40px_rgba(34,211,238,0.3)] hover:scale-110 group before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-pink-500/20 before:to-cyan-400/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
+                className="absolute right-1.5 md:right-2 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-pink-500 to-cyan-400 hover:from-pink-400 hover:to-cyan-300 disabled:bg-stone-600 disabled:cursor-not-allowed text-white rounded-full flex items-center justify-center transition-all duration-300 shadow-lg disabled:shadow-none hover:shadow-[0_0_20px_rgba(236,72,153,0.5),0_0_40px_rgba(34,211,238,0.3)] hover:scale-110 group before:absolute before:inset-0 before:rounded-full before:bg-gradient-to-r before:from-pink-500/20 before:to-cyan-400/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
               >
                 {isLoading ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-3 h-3 md:w-4 md:h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4 md:w-5 md:h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

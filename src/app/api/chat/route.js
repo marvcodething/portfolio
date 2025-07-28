@@ -62,66 +62,26 @@ async function generateEmbedding(text) {
 }
 
 function formatLinksInResponse(text) {
-  // Define known project URLs and their display names
-  const urlMappings = {
-    // GitHub repositories
-    'github.com/marvcodething/international_law_model': 'Legal AI Platform (GitHub)',
-    'github.com/marvcodething/twitter-clone': 'Twitter Clone (GitHub)', 
-    'github.com/marvcodething/notesapp': 'Notes App (GitHub)',
-    'github.com/marvcodething/rose-website': 'ROSE Website (GitHub)',
-    'github.com/marvcodething/loanPrediction': 'Loan Calculator (GitHub)',
-    'github.com/MA0610/SchedulingWebsite': 'Schedule Manager (GitHub)',
-    'github.com/marvcodething/MushieWorld': 'Mushie World (GitHub)',
-    'github.com/marvcodething': 'My GitHub Profile',
-    
-    // Live sites
-    'studyspotapp.com': 'StudySpot',
-    'stomping.site': 'stomping ground',
-    'rose-union.org': 'ROSE Union',
-    'marvinromero.online': 'My Portfolio',
-    'twitter-clone-lxyw.onrender.com/login': 'Twitter Clone (Live Demo)',
-    'notesapp-phi-gilt.vercel.app': 'Notes App (Live Demo)',
-    'loanprediction-rxir.onrender.com': 'Loan Calculator (Live Demo)',
-    
-    // Social links
-    'www.linkedin.com/in/marvin-romero': 'My LinkedIn',
-    'linkedin.com/in/marvin-romero': 'My LinkedIn'
-  };
+  // Aggressively clean up any HTML and return plain text only
+  let cleanText = text;
   
-  let formattedText = text;
+  // Remove ALL HTML-like content step by step
+  // First remove complete tags
+  cleanText = cleanText.replace(/<[^>]*>/g, '');
   
-  // First, completely remove any existing HTML links to start fresh
-  formattedText = formattedText.replace(/<a[^>]*>([^<]*)<\/a>/g, '$1');
-  formattedText = formattedText.replace(/href="[^"]*"/g, '');
-  formattedText = formattedText.replace(/target="_blank"/g, '');
-  formattedText = formattedText.replace(/rel="noopener noreferrer"/g, '');
-  formattedText = formattedText.replace(/style="[^"]*"/g, '');
+  // Remove any remaining HTML attributes (with and without quotes)
+  cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*"[^"]*"/gi, '');
+  cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*'[^']*'/gi, '');
+  cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*[^\s"'>]*/gi, '');
   
-  // Remove any existing link text that might be duplicated
-  Object.values(urlMappings).forEach(displayName => {
-    // Remove any existing link text followed by malformed HTML
-    formattedText = formattedText.replace(new RegExp(`${displayName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>[^<]*`, 'g'), displayName);
-    // Remove any existing link text with HTML attributes
-    formattedText = formattedText.replace(new RegExp(`${displayName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^>]*>`, 'g'), displayName);
-  });
+  // Remove any remaining brackets, quotes, and HTML-like artifacts
+  cleanText = cleanText.replace(/[<>"']/g, '');
+  cleanText = cleanText.replace(/&[a-zA-Z0-9#]+;/g, ''); // Remove HTML entities
   
-  // Process each URL mapping
-  Object.entries(urlMappings).forEach(([url, displayName]) => {
-    // Create patterns for both with and without https://
-    const patterns = [
-      new RegExp(`https?://${url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!/[^\\s<>"]*[a-zA-Z])`, 'gi'),
-      new RegExp(`\\b${url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!/[^\\s<>"]*[a-zA-Z])`, 'gi')
-    ];
-    
-    patterns.forEach(pattern => {
-      formattedText = formattedText.replace(pattern, (match) => {
-        const href = match.startsWith('http') ? match : `https://${match}`;
-        return `<a href="${href}" target="_blank" rel="noopener noreferrer" style="color: #ec4899; text-decoration: underline;">${displayName}</a>`;
-      });
-    });
-  });
+  // Clean up any double spaces
+  cleanText = cleanText.replace(/\s+/g, ' ').trim();
   
-  return formattedText;
+  return cleanText;
 }
 
 async function searchRelevantContent(query, threshold = 0.6, limit = 3) {
@@ -190,21 +150,19 @@ Instructions:
 - Be conversational and professional
 - Look at the previous conversation to avoid repeating the same information
 - If you already mentioned certain projects/details, focus on different ones or provide additional details
-- When mentioning projects, include complete URLs exactly as they appear in the context
-- Always use full URLs like "github.com/marvcodething/project-name" not partial references
-- For projects with GitHub repositories, include the complete GitHub URL
-- For live demos, include the complete demo URL
-- If someone asks for links, provide all available complete URLs including GitHub, live sites, and portfolio links
+- CRITICAL: When mentioning contact links, ALWAYS use the exact URLs, never descriptive text
+- GitHub: ALWAYS say "github.com/marvcodething" - NEVER say "My GitHub" or "My GitHub Profile"
+- LinkedIn: ALWAYS say "www.linkedin.com/in/marvin-romero" - NEVER say "My LinkedIn" 
+- Portfolio: ALWAYS say "marvinromero.online" - NEVER say "My Portfolio"
+- Email: ALWAYS say "marv.a.romero05@gmail.com"
+- Phone: ALWAYS say "(301) 693-5984"
+- NEVER use phrases like "My [platform]" or "[platform] Profile" - use actual URLs only
 - You can rephrase and summarize information from the context
 - Do NOT add personal details, locations, or experiences not mentioned in the context
 - If you don't have enough relevant context to answer, say so
-- CRITICAL: Format ALL links as plain text URLs only (e.g., "github.com/marvcodething/project-name")
-- NEVER use any HTML tags, markdown, or formatting in your responses
-- NEVER include quotes around URLs or any special characters
-- NEVER include HTML attributes, styles, or any markup
-- NEVER write link text like "My LinkedIn" or "My GitHub Profile" - only write the raw URLs
-- Write all links as simple text URLs that the system will automatically convert
-- DO NOT create any link text or descriptions - just the URLs
+- IMPORTANT: Write URLs as plain text only - do NOT use HTML tags, links, or any HTML formatting
+- NEVER use HTML tags like <a>, <href>, or any HTML attributes
+- Output plain text only, no HTML whatsoever
 
 User question: ${query}`;
 
@@ -216,21 +174,22 @@ User question: ${query}`;
     
     let responseText = response.response.text().trim();
     
-    // Aggressive HTML cleanup - strip ALL HTML and rebuild from scratch
-    responseText = responseText.replace(/<[^>]*>/g, ''); // Remove all HTML tags
-    responseText = responseText.replace(/"[^"]*"/g, ''); // Remove all quoted strings
-    responseText = responseText.replace(/target="_blank"/g, '');
-    responseText = responseText.replace(/rel="noopener noreferrer"/g, '');
-    responseText = responseText.replace(/style="[^"]*"/g, '');
-    responseText = responseText.replace(/href="[^"]*"/g, '');
+    // Debug logging
+    console.log('🔍 Raw AI response:', responseText.substring(0, 200) + '...');
     
-    // Clean up any remaining malformed text
-    responseText = responseText.replace(/>[^<]*</g, '');
-    responseText = responseText.replace(/"[^"]*" [^>]*>/g, '');
-    responseText = responseText.replace(/"[^"]*" [^>]*\/>/g, '');
-    
-    // Convert URLs to clickable links
+    // Convert URLs to clickable links (this function also cleans HTML)
     responseText = formatLinksInResponse(responseText);
+    
+    console.log('🔧 After link formatting:', responseText.substring(0, 200) + '...');
+    
+    // Final validation: Log any remaining artifacts
+    const validLinks = responseText.match(/<a[^>]*>.*?<\/a>/g) || [];
+    const htmlArtifacts = responseText.match(/[<>]|href=|target=|style=/g) || [];
+    const expectedArtifacts = validLinks.length * 4; // Each link has <, >, href=, target=, style=
+    
+    if (htmlArtifacts.length > expectedArtifacts) {
+      console.warn('⚠️ Potential HTML artifacts detected:', htmlArtifacts.slice(expectedArtifacts));
+    }
     
     return responseText;
   } catch (error) {
@@ -315,7 +274,7 @@ export async function POST(request) {
 export async function GET() {
   try {
     // Test connections
-    const { data, error } = await supabase.from('document_chunks').select('count', { count: 'exact', head: true });
+    const { error } = await supabase.from('document_chunks').select('count', { count: 'exact', head: true });
     
     return NextResponse.json({
       success: true,
