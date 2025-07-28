@@ -1,18 +1,12 @@
-/**
- * Chat API Route for Portfolio RAG Chatbot
- * Simplified version with direct API calls
- */
+// Chat API Route for Portfolio RAG Chatbot
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Simple in-memory rate limiting (for production, use Redis or similar)
 const rateLimitMap = new Map();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const MAX_REQUESTS_PER_WINDOW = 10; // 10 requests per minute
-
-// Cleanup old entries every 5 minutes to prevent memory leaks
+const RATE_LIMIT_WINDOW = 60 * 1000;
+const MAX_REQUESTS_PER_WINDOW = 10;
 setInterval(() => {
   const now = Date.now();
   const windowStart = now - RATE_LIMIT_WINDOW;
@@ -25,7 +19,7 @@ setInterval(() => {
       rateLimitMap.set(ip, recentRequests);
     }
   }
-}, 5 * 60 * 1000); // Cleanup every 5 minutes
+}, 5 * 60 * 1000);
 
 function checkRateLimit(ip) {
   const now = Date.now();
@@ -47,7 +41,6 @@ function checkRateLimit(ip) {
   return true;
 }
 
-// Initialize clients
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -62,23 +55,14 @@ async function generateEmbedding(text) {
 }
 
 function formatLinksInResponse(text) {
-  // Aggressively clean up any HTML and return plain text only
   let cleanText = text;
   
-  // Remove ALL HTML-like content step by step
-  // First remove complete tags
   cleanText = cleanText.replace(/<[^>]*>/g, '');
-  
-  // Remove any remaining HTML attributes (with and without quotes)
   cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*"[^"]*"/gi, '');
   cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*'[^']*'/gi, '');
   cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*[^\s"'>]*/gi, '');
-  
-  // Remove any remaining brackets, quotes, and HTML-like artifacts
   cleanText = cleanText.replace(/[<>"']/g, '');
-  cleanText = cleanText.replace(/&[a-zA-Z0-9#]+;/g, ''); // Remove HTML entities
-  
-  // Clean up any double spaces
+  cleanText = cleanText.replace(/&[a-zA-Z0-9#]+;/g, '');
   cleanText = cleanText.replace(/\s+/g, ' ').trim();
   
   return cleanText;
@@ -86,14 +70,8 @@ function formatLinksInResponse(text) {
 
 async function searchRelevantContent(query, threshold = 0.6, limit = 3) {
   try {
-    console.log(`🔍 Searching for: "${query}"`);
-    
     const queryEmbedding = await generateEmbedding(query);
-    console.log(`📊 Generated embedding with ${queryEmbedding.length} dimensions`);
-    
-    // Format embedding as PostgreSQL array string
     const embeddingString = `[${queryEmbedding.join(',')}]`;
-    console.log(`🔧 Formatted embedding for database search`);
     
     const { data, error } = await supabase.rpc('search_chunks', {
       query_embedding: embeddingString,
@@ -102,18 +80,13 @@ async function searchRelevantContent(query, threshold = 0.6, limit = 3) {
     });
     
     if (error) {
-      console.error('❌ Database search error:', error);
+      console.error('Database search error:', error);
       throw error;
-    }
-    
-    console.log(`✅ Database search completed: ${data ? data.length : 0} results`);
-    if (data && data.length > 0) {
-      console.log(`🎯 Top result: ${data[0].category} (similarity: ${data[0].similarity})`);
     }
     
     return data || [];
   } catch (error) {
-    console.error('❌ Search function failed:', error);
+    console.error('Search function failed:', error);
     return [];
   }
 }
@@ -132,7 +105,6 @@ async function generateResponse(query, context, conversationHistory = []) {
       ? context.map(item => `[${item.category}] ${item.content}`).join('\n\n')
       : '';
     
-    // Format conversation history
     const historyText = conversationHistory.length > 0
       ? '\n\nPrevious conversation:\n' + conversationHistory.map(msg => 
           `${msg.role === 'user' ? 'User' : 'You'}: ${msg.content}`
@@ -173,23 +145,7 @@ User question: ${query}`;
     }
     
     let responseText = response.response.text().trim();
-    
-    // Debug logging
-    console.log('🔍 Raw AI response:', responseText.substring(0, 200) + '...');
-    
-    // Convert URLs to clickable links (this function also cleans HTML)
     responseText = formatLinksInResponse(responseText);
-    
-    console.log('🔧 After link formatting:', responseText.substring(0, 200) + '...');
-    
-    // Final validation: Log any remaining artifacts
-    const validLinks = responseText.match(/<a[^>]*>.*?<\/a>/g) || [];
-    const htmlArtifacts = responseText.match(/[<>]|href=|target=|style=/g) || [];
-    const expectedArtifacts = validLinks.length * 4; // Each link has <, >, href=, target=, style=
-    
-    if (htmlArtifacts.length > expectedArtifacts) {
-      console.warn('⚠️ Potential HTML artifacts detected:', htmlArtifacts.slice(expectedArtifacts));
-    }
     
     return responseText;
   } catch (error) {
@@ -200,7 +156,6 @@ User question: ${query}`;
 
 export async function POST(request) {
   try {
-    // Rate limiting
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
     if (!checkRateLimit(ip)) {
       return NextResponse.json(
@@ -211,8 +166,6 @@ export async function POST(request) {
     
     const body = await request.json();
     const { message, conversationHistory = [] } = body;
-    
-    // Validate input
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       return NextResponse.json(
         { error: 'Message is required and must be a non-empty string' },
@@ -227,24 +180,7 @@ export async function POST(request) {
       );
     }
     
-    console.log(`Processing query: "${message.substring(0, 100)}${message.length > 100 ? '...' : ''}"`);
-    
-    // Search for relevant content with lower threshold
-    const relevantContent = await searchRelevantContent(message, 0.3, 5); // Lower threshold, more results
-    console.log(`Found ${relevantContent.length} relevant chunks`);
-    
-    // Debug: Log search details
-    if (relevantContent.length > 0) {
-      console.log('Top result:', {
-        category: relevantContent[0].category,
-        similarity: relevantContent[0].similarity,
-        preview: relevantContent[0].content.substring(0, 100)
-      });
-    } else {
-      console.log('No relevant content found - debugging search...');
-    }
-    
-    // Generate response using RAG
+    const relevantContent = await searchRelevantContent(message, 0.3, 5);
     const response = await generateResponse(message, relevantContent, conversationHistory);
     
     return NextResponse.json({
@@ -253,7 +189,7 @@ export async function POST(request) {
       metadata: {
         relevantChunks: relevantContent.length,
         sources: relevantContent.map(chunk => chunk.category),
-        processingTime: Date.now() // Simple timestamp
+        processingTime: Date.now()
       }
     });
     
@@ -270,10 +206,8 @@ export async function POST(request) {
   }
 }
 
-// Optional: GET endpoint for health check
 export async function GET() {
   try {
-    // Test connections
     const { error } = await supabase.from('document_chunks').select('count', { count: 'exact', head: true });
     
     return NextResponse.json({

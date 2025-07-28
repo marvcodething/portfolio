@@ -1,10 +1,4 @@
-/**
- * Gemini AI Service for Portfolio RAG Chatbot
- * Purpose: Handle all Gemini AI operations including embeddings and chat completions
- * Key Methods: generateEmbedding(), chatCompletion(), estimateTokens(), formatMessages()
- * Integration: Used by vectorstore.ts for embeddings and marvinChatbot.ts for responses
- * Optimization: Implements token counting and rate limiting for budget control
- */
+// Gemini AI Service for Portfolio RAG Chatbot
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
 

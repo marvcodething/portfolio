@@ -1,33 +1,26 @@
-/**
- * Token Tracker for Portfolio RAG Chatbot
- * Purpose: Monitor token usage and enforce monthly budget limits ($0.60/month target)
- * Key Methods: getCurrentUsage(), addTokens(), canMakeRequest(), getUsageStats()
- * Integration: Used by marvinChatbot.ts to enforce budget constraints
- * Optimization: Prevents budget overruns through proactive monitoring and limits
- */
+// Token Tracker for Portfolio RAG Chatbot
 
-// Type definitions for token tracking
 export interface TokenUsage {
-  totalTokens: number;               // Total tokens used this month
-  totalCost: number;                 // Total cost in USD this month
-  requestCount: number;              // Number of requests this month
-  lastReset: string;                 // Last monthly reset date (ISO string)
-  dailyUsage: DailyUsage[];         // Daily breakdown
+  totalTokens: number;
+  totalCost: number;
+  requestCount: number;
+  lastReset: string;
+  dailyUsage: DailyUsage[];
 }
 
 export interface DailyUsage {
-  date: string;                      // Date in YYYY-MM-DD format
-  tokens: number;                    // Tokens used on this date
-  cost: number;                      // Cost incurred on this date
-  requests: number;                  // Number of requests on this date
+  date: string;
+  tokens: number;
+  cost: number;
+  requests: number;
 }
 
 export interface BudgetLimits {
-  monthlyBudget: number;             // Monthly budget limit in USD
-  dailyBudget: number;               // Daily budget limit in USD
-  maxTokensPerRequest: number;       // Maximum tokens per single request
-  maxRequestsPerDay: number;         // Maximum requests per day
-  warningThreshold: number;          // Warning threshold (0.8 = 80% of budget)
+  monthlyBudget: number;
+  dailyBudget: number;
+  maxTokensPerRequest: number;
+  maxRequestsPerDay: number;
+  warningThreshold: number;
 }
 
 export interface UsageStats {
@@ -74,13 +67,6 @@ const STORAGE_KEYS = {
   SETTINGS: 'marvin_budget_settings',
 } as const;
 
-/**
- * Gets current token usage statistics
- * Purpose: Retrieve current month's usage data from localStorage
- * Returns: TokenUsage object with current statistics
- * Error Handling: Returns default usage if storage is corrupted
- * Optimization: Client-side tracking eliminates server dependency
- */
 export function getCurrentUsage(): TokenUsage {
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.USAGE);
@@ -90,7 +76,6 @@ export function getCurrentUsage(): TokenUsage {
 
     const usage: TokenUsage = JSON.parse(stored);
     
-    // Check if we need to reset for new month
     if (shouldResetUsage(usage.lastReset)) {
       return resetMonthlyUsage();
     }
@@ -98,19 +83,11 @@ export function getCurrentUsage(): TokenUsage {
     return usage;
     
   } catch (error) {
-    console.error('Error loading token usage:', error);
+    console.warn('Token usage tracking error:', error.message);
     return initializeUsage();
   }
 }
 
-/**
- * Adds token usage to current tracking
- * Purpose: Record token consumption for budget monitoring
- * Parameters: tokens - number of tokens used, cost - cost in USD, operation - type of operation
- * Returns: updated TokenUsage object
- * Error Handling: Validates input parameters, handles storage failures
- * Optimization: Efficient updates with daily aggregation
- */
 export function addTokens(
   tokens: number,
   cost: number,
@@ -146,15 +123,11 @@ export function addTokens(
     todayUsage.cost += cost;
     todayUsage.requests += 1;
     
-    // Keep only last 31 days of daily usage
     currentUsage.dailyUsage = currentUsage.dailyUsage
       .filter(day => isWithinDays(day.date, 31))
       .sort((a, b) => a.date.localeCompare(b.date));
     
-    // Save updated usage
     localStorage.setItem(STORAGE_KEYS.USAGE, JSON.stringify(currentUsage));
-    
-    // Log transaction
     logTransaction({
       timestamp: new Date().toISOString(),
       tokens,
@@ -167,9 +140,7 @@ export function addTokens(
     return currentUsage;
     
   } catch (error) {
-    console.error('Error adding tokens:', error);
-    
-    // Log failed transaction
+    console.warn('Token tracking error:', error.message);
     logTransaction({
       timestamp: new Date().toISOString(),
       tokens,
@@ -183,69 +154,48 @@ export function addTokens(
   }
 }
 
-/**
- * Checks if a request can be made within budget limits
- * Purpose: Prevent budget overruns by checking limits before expensive operations
- * Parameters: estimatedTokens - expected token usage, estimatedCost - expected cost
- * Returns: boolean indicating if request is within limits
- * Error Handling: Defaults to false for safety if checks fail
- * Optimization: Fast pre-flight check prevents wasted API calls
- */
 export function canMakeRequest(estimatedTokens: number = 500, estimatedCost: number = 0.001): boolean {
   try {
     const usage = getCurrentUsage();
     const limits = getBudgetLimits();
     const today = getTodayString();
     
-    // Check monthly budget
     if (usage.totalCost + estimatedCost > limits.monthlyBudget) {
-      console.warn('Request would exceed monthly budget');
+      console.warn('Monthly budget limit reached');
       return false;
     }
     
-    // Check daily budget
     const todayUsage = usage.dailyUsage.find(day => day.date === today);
     const todayCost = todayUsage?.cost || 0;
     if (todayCost + estimatedCost > limits.dailyBudget) {
-      console.warn('Request would exceed daily budget');
+      console.warn('Daily budget limit reached');
       return false;
     }
     
-    // Check daily request limit
     const todayRequests = todayUsage?.requests || 0;
     if (todayRequests >= limits.maxRequestsPerDay) {
-      console.warn('Request would exceed daily request limit');
+      console.warn('Daily request limit reached');
       return false;
     }
-    
-    // Check per-request token limit
     if (estimatedTokens > limits.maxTokensPerRequest) {
-      console.warn('Request would exceed per-request token limit');
+      console.warn('Token limit exceeded');
       return false;
     }
     
     return true;
     
   } catch (error) {
-    console.error('Error checking request limits:', error);
+    console.warn('Request limit check failed:', error.message);
     return false; // Fail safe
   }
 }
 
-/**
- * Gets comprehensive usage statistics
- * Purpose: Provide detailed analytics for monitoring and optimization
- * Returns: UsageStats object with all relevant metrics
- * Error Handling: Provides safe defaults for calculation errors
- * Optimization: Helps identify usage patterns and optimization opportunities
- */
 export function getUsageStats(): UsageStats {
   try {
     const currentUsage = getCurrentUsage();
     const budgetLimits = getBudgetLimits();
     const today = getTodayString();
     
-    // Calculate remaining budgets
     const remainingBudget = Math.max(0, budgetLimits.monthlyBudget - currentUsage.totalCost);
     
     const todayUsage = currentUsage.dailyUsage.find(day => day.date === today);
@@ -278,7 +228,7 @@ export function getUsageStats(): UsageStats {
     };
     
   } catch (error) {
-    console.error('Error getting usage stats:', error);
+    console.warn('Usage stats error:', error.message);
     return getDefaultStats();
   }
 }
@@ -306,7 +256,7 @@ export function getBudgetLimits(): BudgetLimits {
     return DEFAULT_BUDGET_LIMITS;
     
   } catch (error) {
-    console.error('Error loading budget limits:', error);
+    console.warn('Budget limits error:', error.message);
     return DEFAULT_BUDGET_LIMITS;
   }
 }
@@ -331,7 +281,7 @@ export function setBudgetLimits(limits: Partial<BudgetLimits>): boolean {
     return true;
     
   } catch (error) {
-    console.error('Error setting budget limits:', error);
+    console.warn('Budget limits update failed:', error.message);
     return false;
   }
 }
@@ -383,7 +333,7 @@ export function getTransactionHistory(limit: number = 50): TokenTransaction[] {
       .slice(0, limit);
       
   } catch (error) {
-    console.error('Error loading transaction history:', error);
+    console.warn('Transaction history error:', error.message);
     return [];
   }
 }
@@ -405,10 +355,9 @@ export function resetMonthlyUsage(): TokenUsage {
   
   try {
     localStorage.setItem(STORAGE_KEYS.USAGE, JSON.stringify(newUsage));
-    console.log('Monthly usage reset successfully');
     return newUsage;
   } catch (error) {
-    console.error('Error resetting monthly usage:', error);
+    console.warn('Monthly reset failed:', error.message);
     return newUsage;
   }
 }
@@ -473,7 +422,7 @@ function logTransaction(transaction: TokenTransaction): void {
     
     localStorage.setItem(STORAGE_KEYS.TRANSACTIONS, JSON.stringify(transactions));
   } catch (error) {
-    console.error('Error logging transaction:', error);
+    console.warn('Transaction log failed:', error.message);
   }
 }
 
@@ -507,7 +456,7 @@ export function testTokenTracker(): boolean {
            typeof stats.usagePercentage === 'number';
            
   } catch (error) {
-    console.error('Token tracker test failed:', error);
+    console.warn('Token tracker test failed:', error.message);
     return false;
   }
 }
