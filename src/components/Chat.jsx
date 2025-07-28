@@ -4,52 +4,59 @@ import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import portrait from "@/assets/portrait.png";
 
-// HTML sanitization function to prevent XSS while preserving safe HTML
-function sanitizeHTML(html) {
-  // Only allow specific safe HTML tags and attributes
-  const allowedTags = {
-    a: ["href", "target", "rel", "style"],
-    br: [],
-    strong: [],
-    em: [],
-    b: [],
-    i: [],
+// Function to convert URLs in text to clickable links
+function formatTextWithLinks(text) {
+  // URL mappings for known links
+  const urlMappings = {
+    'github.com/marvcodething/international_law_model': 'Legal AI Platform (GitHub)',
+    'github.com/marvcodething/twitter-clone': 'Twitter Clone (GitHub)', 
+    'github.com/marvcodething/notesapp': 'Notes App (GitHub)',
+    'github.com/marvcodething/rose-website': 'ROSE Website (GitHub)',
+    'github.com/marvcodething/loanPrediction': 'Loan Calculator (GitHub)',
+    'github.com/MA0610/SchedulingWebsite': 'Schedule Manager (GitHub)',
+    'github.com/marvcodething/MushieWorld': 'Mushie World (GitHub)',
+    'github.com/marvcodething': 'My GitHub Profile',
+    'studyspotapp.com': 'StudySpot',
+    'stomping.site': 'stomping ground',
+    'rose-union.org': 'ROSE Union',
+    'marvinromero.online': 'My Portfolio',
+    'twitter-clone-lxyw.onrender.com/login': 'Twitter Clone (Live Demo)',
+    'notesapp-phi-gilt.vercel.app': 'Notes App (Live Demo)',
+    'loanprediction-rxir.onrender.com': 'Loan Calculator (Live Demo)',
+    'linkedin.com/in/marvin-romero': 'My LinkedIn',
+    'www.linkedin.com/in/marvin-romero': 'My LinkedIn'
   };
 
-  const div = document.createElement("div");
-  div.innerHTML = html;
+  let formattedText = text;
+  
+  // First, remove any existing HTML artifacts completely
+  formattedText = formattedText.replace(/<[^>]*>/g, '');
+  formattedText = formattedText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*"[^"]*"/gi, '');
+  formattedText = formattedText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*'[^']*'/gi, '');
+  formattedText = formattedText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*[^\s"'>]*/gi, '');
+  formattedText = formattedText.replace(/[<>"']/g, '');
+  
+  // Fix common text artifacts from AI generation
+  formattedText = formattedText.replace(/My LinkedIn/gi, 'www.linkedin.com/in/marvin-romero');
+  formattedText = formattedText.replace(/My GitHub Profile/gi, 'github.com/marvcodething');
+  formattedText = formattedText.replace(/My GitHub/gi, 'github.com/marvcodething');
+  formattedText = formattedText.replace(/My Portfolio/gi, 'marvinromero.online');
+  
+  // Process each URL mapping
+  Object.entries(urlMappings).forEach(([url, displayName]) => {
+    const escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(`\\b(?:https?://)?(${escapedUrl})(?!.*</a>)\\b`, 'gi');
+    
+    formattedText = formattedText.replace(pattern, (match) => {
+      const href = match.startsWith('http') ? match : `https://${match}`;
+      return `<a href="${href}" target="_blank" rel="noopener noreferrer" style="color: #ec4899; text-decoration: underline;">${displayName}</a>`;
+    });
+  });
 
-  // Remove all tags except allowed ones
-  const walker = document.createTreeWalker(
-    div,
-    NodeFilter.SHOW_ELEMENT,
-    null,
-    false
-  );
+  // Remove standalone "www." that appears before links (AFTER link creation)
+  formattedText = formattedText.replace(/www\.\s*(<a[^>]*>My LinkedIn<\/a>)/gi, '$1');
 
-  const nodesToRemove = [];
-  let node;
-
-  while ((node = walker.nextNode())) {
-    const tagName = node.tagName.toLowerCase();
-    if (!allowedTags[tagName]) {
-      nodesToRemove.push(node);
-    } else {
-      // Remove disallowed attributes
-      const allowedAttrs = allowedTags[tagName];
-      for (let i = node.attributes.length - 1; i >= 0; i--) {
-        const attr = node.attributes[i];
-        if (!allowedAttrs.includes(attr.name)) {
-          node.removeAttribute(attr.name);
-        }
-      }
-    }
-  }
-
-  // Remove disallowed nodes
-  nodesToRemove.forEach((node) => node.remove());
-
-  return div.innerHTML;
+  return formattedText;
 }
 
 export default function Chat() {
@@ -261,7 +268,7 @@ export default function Chat() {
                       <div
                         className="text-base leading-relaxed prose prose-stone max-w-none"
                         dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(message.text),
+                          __html: formatTextWithLinks(message.text),
                         }}
                       />
                     </div>
