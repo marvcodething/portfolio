@@ -57,12 +57,13 @@ async function generateEmbedding(text) {
 function formatLinksInResponse(text) {
   let cleanText = text;
   
-  cleanText = cleanText.replace(/<[^>]*>/g, '');
-  cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*"[^"]*"/gi, '');
-  cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*'[^']*'/gi, '');
-  cleanText = cleanText.replace(/\s*(href|target|rel|style|class|id)\s*=\s*[^\s"'>]*/gi, '');
-  cleanText = cleanText.replace(/[<>"']/g, '');
-  cleanText = cleanText.replace(/&[a-zA-Z0-9#]+;/g, '');
+  // Convert Markdown bold to HTML bold
+  cleanText = cleanText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Remove all HTML tags except strong tags
+  cleanText = cleanText.replace(/<(?!\/?(strong)\b)[^>]*>/g, '');
+  
+  // Clean up extra whitespace
   cleanText = cleanText.replace(/\s+/g, ' ').trim();
   
   return cleanText;
@@ -94,9 +95,9 @@ async function searchRelevantContent(query, threshold = 0.6, limit = 3) {
 async function generateResponse(query, context, conversationHistory = []) {
   try {
     const model = ai.getGenerativeModel({ 
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       generationConfig: {
-        maxOutputTokens: 500,
+        maxOutputTokens: 1000,
         temperature: 0.7,
       },
     });
@@ -138,13 +139,33 @@ Instructions:
 
 User question: ${query}`;
 
-    const response = await model.generateContent(systemPrompt);
+    const response = await model.generateContent([{ text: systemPrompt }]);
     
-    if (!response || !response.response || !response.response.text()) {
+    if (!response || !response.response) {
       throw new Error('Invalid response from Gemini');
     }
     
-    let responseText = response.response.text().trim();
+    const candidates = response.response.candidates;
+    if (!candidates || candidates.length === 0) {
+      throw new Error('No candidates in response');
+    }
+    
+    const candidate = candidates[0];
+    const content = candidate.content;
+    
+    // Handle MAX_TOKENS case where parts might be missing
+    if (candidate.finishReason === 'MAX_TOKENS') {
+      console.warn('Response truncated due to MAX_TOKENS');
+      if (!content || !content.parts || content.parts.length === 0) {
+        return "I apologize, but my response was cut off due to length limits. Please try asking a more specific question.";
+      }
+    }
+    
+    if (!content || !content.parts || content.parts.length === 0) {
+      throw new Error('No content in response');
+    }
+    
+    let responseText = content.parts[0].text?.trim();
     responseText = formatLinksInResponse(responseText);
     
     return responseText;
