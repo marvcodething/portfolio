@@ -27,7 +27,7 @@ export default function Projects() {
       title: "2026",
       content: (
         <div>
-          <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
+          <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
             Capital One — Software Engineering Intern (Technology Internship Program)
           </h3>
           <p className="text-cyan-400 text-xs md:text-sm mb-2">June 2026 – August 2026</p>
@@ -42,7 +42,7 @@ export default function Projects() {
       content: (
         <div>
           <div className="mb-6">
-            <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
               Occidental College — Computer Science Teaching Assistant
             </h3>
             <p className="text-cyan-400 text-xs md:text-sm mb-2">August 2025 – December 2025 · Part-time · Los Angeles, CA</p>
@@ -52,7 +52,7 @@ export default function Projects() {
             </ul>
           </div>
           <div className="mb-6">
-            <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
               DOJi — Software Engineering Intern (Remote)
             </h3>
             <p className="text-cyan-400 text-xs md:text-sm mb-2">July 2025 – August 2025</p>
@@ -65,7 +65,7 @@ export default function Projects() {
             </ul>
           </div>
           <div>
-            <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
               The Confracted Company — Co-Founder, CTO & Creative Director
             </h3>
             <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal">
@@ -81,7 +81,7 @@ export default function Projects() {
       title: "2024",
       content: (
         <div>
-          <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
+          <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
             Occidental College Biochemistry Department — Software Engineering Intern
           </h3>
           <p className="text-cyan-400 text-xs md:text-sm mb-2">August 2024 – December 2024</p>
@@ -99,7 +99,7 @@ export default function Projects() {
       content: (
         <div>
           <div className="mb-6">
-            <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
               California Native Vote Project — Web Development Intern
             </h3>
             <p className="text-cyan-400 text-xs md:text-sm mb-2">September 2023 – December 2023 · Los Angeles, CA</p>
@@ -111,7 +111,7 @@ export default function Projects() {
             </ul>
           </div>
           <div>
-            <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
               480 Club — Student Ambassador
             </h3>
             <p className="text-cyan-400 text-xs md:text-sm mb-2">April 2023 – August 2023 · Montgomery Village, MD</p>
@@ -159,7 +159,7 @@ export default function Projects() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                className="flex items-center space-x-2 text-stone-300 hover:text-white transition-all duration-300 px-4 py-2 rounded-lg relative group hover:bg-stone-800/30 hover:shadow-[0_0_20px_rgba(236,72,153,0.3),0_0_40px_rgba(34,211,238,0.2)] before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-pink-500/10 before:via-cyan-400/10 before:to-pink-500/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
+                className="flex items-center space-x-2 text-stone-300 hover:text-white transition-all duration-300 px-4 py-2 rounded-lg relative group hover:bg-stone-800/30 hover:shadow-[0_0_20px_rgba(249,115,22,0.3),0_0_40px_rgba(34,211,238,0.2)] before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-orange-500/10 before:via-cyan-400/10 before:to-orange-500/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
               >
                 {item.icon}
                 <span className="text-sm font-medium">{item.name}</span>

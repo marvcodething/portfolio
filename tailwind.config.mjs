@@ -13,6 +13,10 @@ const config = {
   darkMode: ["class", "class"],
   theme: {
     extend: {
+      fontFamily: {
+        abominable: ["'Abominable'", "Arial", "sans-serif"],
+        futura: ["'FuturaHeavy'", "Arial", "sans-serif"],
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
