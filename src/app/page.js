@@ -21,7 +21,7 @@ const itemVariants = {
 };
 
 export default function Home() {
-  const [mode, setMode] = useState("swe");
+  const [mode, setMode] = useState("film");
   const isSWE = mode === "swe";
 
   const iconHoverClass = isSWE
@@ -78,9 +78,8 @@ export default function Home() {
       }, delay);
     };
 
-    // Exposed to hover handlers: stop in-progress wave, reset timer
+    // Exposed to hover handlers: reset timer only, no snap
     scheduleWaveRef.current = (delay = 4000 + Math.random() * 3000) => {
-      snapAllToRest();
       scheduleWave(delay);
     };
 
