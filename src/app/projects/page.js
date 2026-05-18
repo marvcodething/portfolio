@@ -16,6 +16,7 @@ import mushieShot from "@/assets/mushieShot.png";
 import retroShot from "@/assets/retroShot.png";
 import noteShot from "@/assets/noteShot.png";
 import stompShot from "@/assets/stompShot.jpg"
+import typeShot from "@/assets/typeShot.png"
 import Link from "next/link"
 
 export default function Projects() {
@@ -35,6 +36,19 @@ export default function Projects() {
   ];
 
   const data = [
+    {
+      category: "AI/ML",
+      title: "MarvGPT — Portfolio RAG Chatbot",
+      src: typeShot,
+      githubLink: "https://github.com/marvcodething/portfolio",
+      demoLink: null,
+      content: <ProjectContent
+        description="AI-powered portfolio chatbot built with a full RAG pipeline. Uses Google Gemini for embeddings and generation, Supabase pgvector for semantic search over chunked portfolio data, and a custom query router. Built into this Next.js portfolio site."
+        image={typeShot}
+        githubLink="https://github.com/marvcodething/portfolio"
+        demoLink={null}
+      />,
+    },
     {
       category: "AI/ML",
       title: "AI-Powered Legal Contract Analysis",
@@ -279,8 +293,8 @@ export default function Projects() {
           className="relative z-0 flex flex-col items-center mt-24 pt-8 space-y-2"
         >
           <h1 className="text-4xl font-bold text-white">Cool Stuff I've Built</h1>
-          <a href="/videos" className="text-gray-400 hover:text-white transition-colors">
-            Check out my video projects →
+          <a href="/film" className="text-gray-400 hover:text-white transition-colors">
+            Check out my film & creative work →
           </a>
         </motion.div>
 

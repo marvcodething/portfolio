@@ -1,70 +1,18 @@
 "use client";
 import { MdEmail } from "react-icons/md";
-import { FloatingNav } from "@/components/ui/floating-navbar";
-import { IconHome, IconCpu, IconFileCv } from "@tabler/icons-react";
 import { motion } from "motion/react";
-import Chat from "@/components/Chat";
+import Link from "next/link";
 
 export default function Home() {
-
-  const navItems = [
-    {
-      name: "Projects",
-      link: "/projects",
-      icon: <IconCpu className="h-4 w-4 text-neutral-500 dark:text-white" />,
-    },
-    {
-      name: "Home",
-      link: "/",
-      icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
-    },
-    {
-      name: "Resume",
-      link: "/resume",
-      icon: (
-        <IconFileCv className="h-4 w-4 text-neutral-500 dark:text-white" />
-      ),
-    },
-  ];
-
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
-      {/* Static Navbar with appear-on-load animation */}
-      <motion.div 
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-stone-700/50"
-      >
-        <div className="flex items-center justify-center px-6 py-4">
-          <div className="flex space-x-8">
-            {navItems.map((item, index) => (
-              <motion.a
-                key={`nav-${index}-${item.name}`}
-                href={item.link}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                className="flex items-center space-x-2 text-stone-300 hover:text-white transition-all duration-300 px-4 py-2 rounded-lg relative group hover:bg-stone-800/30 hover:shadow-[0_0_20px_rgba(236,72,153,0.3),0_0_40px_rgba(34,211,238,0.2)] before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-pink-500/10 before:via-cyan-400/10 before:to-pink-500/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
-              >
-                {item.icon}
-                <span className="text-sm font-medium">{item.name}</span>
-              </motion.a>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-      
-      {/* Header - with increased top padding */}
-      <motion.div 
+    <div className="min-h-screen bg-black text-white flex flex-col">
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="flex flex-col items-center pt-32 pb-6 px-6"
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="flex flex-col items-center pt-24 pb-10 px-6"
       >
-        <h1 className="text-4xl font-bold text-stone-300 mb-4">
-          Marvin Romero
-        </h1>
+        <h1 className="text-5xl font-bold text-stone-200 mb-4">Marvin Romero</h1>
         <div className="flex space-x-4">
           <a
             href="https://www.github.com/marvcodething"
@@ -122,15 +70,51 @@ export default function Home() {
         </div>
       </motion.div>
 
-      {/* Chat Component */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-        className="flex-1 overflow-hidden"
-      >
-        <Chat />
-      </motion.div>
+      <div className="flex-1 flex flex-col md:flex-row px-6 pb-20 gap-6 max-w-4xl mx-auto w-full">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex-1"
+        >
+          <Link href="/projects">
+            <div className="h-full min-h-[280px] border border-stone-700 rounded-2xl p-10 flex flex-col justify-between hover:border-cyan-400/50 hover:bg-stone-900/40 transition-all duration-300 group cursor-pointer">
+              <div>
+                <div className="w-2 h-2 bg-cyan-400 rounded-full mb-6" />
+                <h2 className="text-3xl font-bold text-stone-200 mb-4">Software Engineering</h2>
+                <p className="text-stone-400 text-sm leading-relaxed">
+                  Full-stack development, AI/ML systems, and product engineering. Projects spanning web apps, games, and enterprise tools.
+                </p>
+              </div>
+              <span className="inline-flex items-center text-cyan-400 text-sm font-medium group-hover:translate-x-2 transition-transform duration-300">
+                View projects →
+              </span>
+            </div>
+          </Link>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex-1"
+        >
+          <Link href="/film">
+            <div className="h-full min-h-[280px] border border-stone-700 rounded-2xl p-10 flex flex-col justify-between hover:border-pink-400/50 hover:bg-stone-900/40 transition-all duration-300 group cursor-pointer">
+              <div>
+                <div className="w-2 h-2 bg-pink-400 rounded-full mb-6" />
+                <h2 className="text-3xl font-bold text-stone-200 mb-4">Film & Creative</h2>
+                <p className="text-stone-400 text-sm leading-relaxed">
+                  Documentaries, short films, interactive media, and visual storytelling. Exploring the intersection of art and technology.
+                </p>
+              </div>
+              <span className="inline-flex items-center text-pink-400 text-sm font-medium group-hover:translate-x-2 transition-transform duration-300">
+                View work →
+              </span>
+            </div>
+          </Link>
+        </motion.div>
+      </div>
     </div>
   );
 }

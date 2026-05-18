@@ -2,8 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Abominable';
+  src: url('/fonts/Abominable-Bold-fc.ttf') format('truetype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Abominable';
+  src: url('/fonts/Abominable-Condensed-fc.ttf') format('truetype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'FuturaHeavy';
+  src: url('/fonts/FuturaCyrillicHeavy.ttf') format('truetype');
+  font-weight: normal;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'FuturaHeavy', Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Abominable', Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 @layer base {
