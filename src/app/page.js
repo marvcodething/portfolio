@@ -3,6 +3,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MdEmail } from "react-icons/md";
 import Link from "next/link";
+import { Righteous } from "next/font/google";
+
+const righteous = Righteous({ subsets: ["latin"], weight: "400" });
 
 export default function Home() {
   const [mode, setMode] = useState("swe");
@@ -19,7 +22,7 @@ export default function Home() {
         <motion.h1
           animate={{ color: isSWE ? "#e7e5e4" : "#1c1917" }}
           transition={{ duration: 0.3 }}
-          className="text-5xl font-bold tracking-wide"
+          className={`text-5xl font-bold tracking-wide ${righteous.className}`}
         >
           Marvin Romero
         </motion.h1>
@@ -28,7 +31,7 @@ export default function Home() {
           transition={{ duration: 0.3 }}
           className="text-xs font-futura tracking-[0.25em] uppercase"
         >
-          {isSWE ? "Software Engineer" : "Filmmaker · Creative"}
+          {isSWE ? "Software Engineer" : "Filmmaker · Creative Technologist"}
         </motion.p>
       </div>
 
