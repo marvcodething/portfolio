@@ -125,12 +125,12 @@ export default function Home() {
 
   const handleIconHoverStart = () => {
     iconHoverRef.current = true;
-    scheduleWaveRef.current?.();
+    clearTimeout(waveRef.current); // stop pending wave; mid-wave callbacks are already guarded
   };
 
   const handleIconHoverEnd = () => {
     iconHoverRef.current = false;
-    scheduleWaveRef.current?.(4000 + Math.random() * 3000);
+    scheduleWaveRef.current?.(4000 + Math.random() * 3000); // fresh timer after hover
   };
 
   const handleButtonHoverStart = () => {
