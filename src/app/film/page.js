@@ -154,7 +154,7 @@ const FilmPage = () => {
   }
 
   return (
-    <div className="bg-stone-50">
+    <div className="bg-stone-50 h-screen overflow-hidden">
       {/* Preload all film images */}
       <div aria-hidden className="absolute w-0 h-0 overflow-hidden pointer-events-none">
         {films.filter(f => f.image).map(f => (
@@ -253,7 +253,7 @@ const FilmPage = () => {
             <div
               ref={dialRef}
               className="relative overflow-hidden cursor-grab active:cursor-grabbing select-none"
-              style={{ width: dialWidth, height: dialHeight, perspective: '500px' }}
+              style={{ width: dialWidth, height: dialHeight, perspective: '500px', touchAction: 'none' }}
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
@@ -303,6 +303,8 @@ const FilmPage = () => {
               >
                 {cat === "cinematography" ? (
                   <><span className="md:hidden">DP</span><span className="hidden md:inline">cinematography</span></>
+                ) : cat === "documentary" ? (
+                  <><span className="md:hidden">doc</span><span className="hidden md:inline">documentary</span></>
                 ) : cat}
               </button>
             ))}
