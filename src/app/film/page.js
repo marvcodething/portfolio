@@ -161,12 +161,12 @@ const FilmPage = () => {
           <Image key={f.id} src={f.image} alt="" width={1} height={1} priority />
         ))}
       </div>
-      {/* Navbar */}
+      {/* Navbar — desktop only */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200"
+        className="hidden md:block fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200"
       >
         <div className="flex items-center justify-center px-6 py-4">
           <motion.a
@@ -182,8 +182,9 @@ const FilmPage = () => {
         </div>
       </motion.div>
 
+
       {/* Full-screen layout */}
-      <div className="h-screen pt-16 flex flex-col-reverse md:flex-row overflow-hidden">
+      <div className="h-screen md:pt-16 flex flex-col-reverse md:flex-row overflow-hidden">
 
         {/* Dial sidebar */}
         <motion.div
@@ -346,6 +347,13 @@ const FilmPage = () => {
                   )}
                   {/* Gradient for text legibility */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  {/* Home link — mobile only, top-left inside image */}
+                  <a
+                    href="/"
+                    className="md:hidden absolute top-0 left-0 p-4 inline-flex items-center gap-2 text-orange-400 font-futura text-xs font-medium"
+                  >
+                    ← Home
+                  </a>
                   {/* Text overlay */}
                   <div className="absolute bottom-0 left-0 right-0 p-4 md:p-10">
                     <h2 className="text-xl md:text-4xl font-bold text-white font-abominable uppercase tracking-wide mb-1 md:mb-3">
