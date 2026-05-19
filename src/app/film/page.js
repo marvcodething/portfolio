@@ -154,7 +154,7 @@ const FilmPage = () => {
   }
 
   return (
-    <div className="bg-stone-50 h-screen overflow-hidden">
+    <div className="bg-stone-50 h-dvh overflow-hidden">
       {/* Preload all film images */}
       <div aria-hidden className="absolute w-0 h-0 overflow-hidden pointer-events-none">
         {films.filter(f => f.image).map(f => (
@@ -184,7 +184,7 @@ const FilmPage = () => {
 
 
       {/* Full-screen layout */}
-      <div className="h-screen md:pt-16 flex flex-col-reverse md:flex-row overflow-hidden">
+      <div className="h-dvh md:pt-16 flex flex-col-reverse md:flex-row overflow-hidden">
 
         {/* Dial sidebar */}
         <motion.div
