@@ -16,6 +16,7 @@ import mushieShot from "@/assets/mushieShot.png";
 import retroShot from "@/assets/retroShot.png";
 import noteShot from "@/assets/noteShot.png";
 import stompShot from "@/assets/stompShot.jpg"
+import typeShot from "@/assets/typeShot.png"
 import Link from "next/link"
 
 export default function Projects() {
@@ -35,6 +36,19 @@ export default function Projects() {
   ];
 
   const data = [
+    {
+      category: "AI/ML",
+      title: "MarvGPT — Portfolio RAG Chatbot",
+      src: typeShot,
+      githubLink: "https://github.com/marvcodething/portfolio",
+      demoLink: null,
+      content: <ProjectContent
+        description="AI-powered portfolio chatbot built with a full RAG pipeline. Uses Google Gemini for embeddings and generation, Supabase pgvector for semantic search over chunked portfolio data, and a custom query router. Built into this Next.js portfolio site."
+        image={typeShot}
+        githubLink="https://github.com/marvcodething/portfolio"
+        demoLink={null}
+      />,
+    },
     {
       category: "AI/ML",
       title: "AI-Powered Legal Contract Analysis",
@@ -169,7 +183,7 @@ export default function Projects() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                className="flex items-center space-x-2 text-stone-300 hover:text-white transition-all duration-300 px-4 py-2 rounded-lg relative group hover:bg-stone-800/30 hover:shadow-[0_0_20px_rgba(236,72,153,0.3),0_0_40px_rgba(34,211,238,0.2)] before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-pink-500/10 before:via-cyan-400/10 before:to-pink-500/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
+                className="flex items-center space-x-2 text-stone-300 hover:text-white transition-all duration-300 px-4 py-2 rounded-lg relative group hover:bg-stone-800/30 hover:shadow-[0_0_20px_rgba(249,115,22,0.3),0_0_40px_rgba(34,211,238,0.2)] before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-orange-500/10 before:via-cyan-400/10 before:to-orange-500/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
               >
                 {item.icon}
                 <span className="text-sm font-medium">{item.name}</span>
@@ -279,8 +293,8 @@ export default function Projects() {
           className="relative z-0 flex flex-col items-center mt-24 pt-8 space-y-2"
         >
           <h1 className="text-4xl font-bold text-white">Cool Stuff I've Built</h1>
-          <a href="/videos" className="text-gray-400 hover:text-white transition-colors">
-            Check out my video projects →
+          <a href="/film" className="text-gray-400 hover:text-white transition-colors">
+            Check out my film & creative work →
           </a>
         </motion.div>
 

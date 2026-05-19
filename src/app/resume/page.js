@@ -24,26 +24,53 @@ export default function Projects() {
   ];
   const data = [
     {
+      title: "2026",
+      content: (
+        <div>
+          <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
+            Capital One — Software Engineering Intern (Technology Internship Program)
+          </h3>
+          <p className="text-cyan-400 text-xs md:text-sm mb-2">June 2026 – August 2026</p>
+          <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal">
+            Incoming SWE intern through Capital One's Technology Internship Program (TIP).
+          </p>
+        </div>
+      ),
+    },
+    {
       title: "2025",
       content: (
         <div>
           <div className="mb-6">
-            <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
-              DOJi - Software Engineering Intern, MarketCanvas (Remote)
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
+              Occidental College — Computer Science Teaching Assistant
             </h3>
-            <p className="text-cyan-400 text-xs md:text-sm mb-2">July 2025 – September 2025</p>
+            <p className="text-cyan-400 text-xs md:text-sm mb-2">August 2025 – December 2025 · Part-time · Los Angeles, CA</p>
             <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal list-disc ml-4 space-y-1">
-              <li>Collaborated with founding team to develop analytical tools for financial market pattern recognition, implementing mathematical coordinate systems and algorithmic positioning methods for multiple candlestick pattern types using agile development practices</li>
-              <li>Engineered interval-based positioning algorithms and dynamic grid systems while contributing to strategic product decisions through user authentication and pattern sharing frameworks</li>
+              <li>Supported instruction for undergraduate CS coursework, holding office hours and providing one-on-one academic support to students</li>
+              <li>Assisted in grading assignments and reinforcing core concepts in programming and computer science fundamentals</li>
+            </ul>
+          </div>
+          <div className="mb-6">
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
+              DOJi — Software Engineering Intern (Remote)
+            </h3>
+            <p className="text-cyan-400 text-xs md:text-sm mb-2">July 2025 – August 2025</p>
+            <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal list-disc ml-4 space-y-1">
+              <li>Designed and implemented scalable system architecture for real-time collaboration</li>
+              <li>Delivered high-performance user experience with optimized rendering across multiple concurrent sessions</li>
+              <li>Contributed to pattern creation tools for financial market analysis and charting</li>
+              <li>Maintained clean code practices through structured code review processes</li>
+              <li>Worked in fast-paced startup environment with cross-functional engineering teams</li>
             </ul>
           </div>
           <div>
-            <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
-              The Confracted Company - Co-Founder, CTO, and Creative Director
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
+              The Confracted Company — Co-Founder, CTO & Creative Director
             </h3>
             <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal">
-              Overseeing ecommerce operations, platform management, and performance optimization. 
-              Led website development using Next.JS, TailwindCSS, PostgreSQL, and MedusaJS. 
+              Overseeing ecommerce operations, platform management, and performance optimization.
+              Led website development using Next.js, TailwindCSS, PostgreSQL, and MedusaJS.
               Directed branding, content strategy, and product design initiatives.
             </p>
           </div>
@@ -51,16 +78,18 @@ export default function Projects() {
       ),
     },
     {
-      title: "Late 2024",
+      title: "2024",
       content: (
         <div>
-          <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
-            Occidental College Biochemistry Department - Software Engineering Intern
+          <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
+            Occidental College Biochemistry Department — Software Engineering Intern
           </h3>
           <p className="text-cyan-400 text-xs md:text-sm mb-2">August 2024 – December 2024</p>
           <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal list-disc ml-4 space-y-1">
-            <li>Analyzed complex departmental workflows and designed custom scheduling platform using Flask, React, SQLAlchemy, and PostgreSQL that reduced manual overhead by 50%</li>
-            <li>Led cross-functional collaboration with faculty and administrative stakeholders through structured planning sessions, identifying key pain points and prioritizing high-impact strategic initiatives using agile methodologies</li>
+            <li>Developed full-stack web application to automate course scheduling and resource management</li>
+            <li>Implemented database optimization and user authentication systems</li>
+            <li>Collaborated directly with department faculty to translate business requirements into technical solutions</li>
+            <li>Delivered measurable efficiency improvements through strategic process automation</li>
           </ul>
         </div>
       ),
@@ -69,29 +98,29 @@ export default function Projects() {
       title: "2023",
       content: (
         <div>
-          <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
-            California Native Vote Project - Web Development Intern
-          </h3>
-          <p className="text-cyan-400 text-xs md:text-sm mb-2">August 2023 – December 2023</p>
-          <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal list-disc ml-4 space-y-1">
-            <li>Developed interactive data visualization tools using Leaflet.js, D3.js, and Python, analyzing multiple datasets to generate actionable insights that enhanced targeting accuracy for advocacy campaigns</li>
-            <li>Implemented agile project management across multiple campaigns, integrating weekly stakeholder feedback to enable rapid response to political developments</li>
-          </ul>
-        </div>
-      ),
-    },
-    {
-      title: "2022",
-      content: (
-        <div>
-          <h3 className="text-pink-500 text-sm md:text-base font-semibold mb-2">
-            480 Club Student Ambassador - Lead Ambassador/Mentor
-          </h3>
-          <p className="text-cyan-400 text-xs md:text-sm mb-2">Gaithersburg, Maryland</p>
-          <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal list-disc ml-4 space-y-1">
-            <li>Organized and participated in workshops promoting collaboration and development in underprivileged communities</li>
-            <li>Mentored children academically and socially, conducting weekly individual and group sessions</li>
-          </ul>
+          <div className="mb-6">
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
+              California Native Vote Project — Web Development Intern
+            </h3>
+            <p className="text-cyan-400 text-xs md:text-sm mb-2">September 2023 – December 2023 · Los Angeles, CA</p>
+            <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal list-disc ml-4 space-y-1">
+              <li>Worked on a project aimed at addressing the digital divide in Indigenous communities across California</li>
+              <li>Collected, cleaned, and integrated geospatial data related to broadband infrastructure within Indigenous communities</li>
+              <li>Leveraged Leaflet.js and D3.js to build an interactive map for exploring broadband access data</li>
+              <li>Transformed complex datasets into clear map overlays through data visualization techniques</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-orange-500 text-sm md:text-base font-semibold mb-2">
+              480 Club — Student Ambassador
+            </h3>
+            <p className="text-cyan-400 text-xs md:text-sm mb-2">April 2023 – August 2023 · Montgomery Village, MD</p>
+            <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal list-disc ml-4 space-y-1">
+              <li>Organized and participated in fostering a culture of collaboration, peace, and development within under-privileged communities in Maryland</li>
+              <li>Guided and mentored children to help them excel academically and socially</li>
+              <li>Conducted weekly one-on-one and group mentoring sessions, providing guidance on future endeavors</li>
+            </ul>
+          </div>
         </div>
       ),
     },
@@ -130,7 +159,7 @@ export default function Projects() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                className="flex items-center space-x-2 text-stone-300 hover:text-white transition-all duration-300 px-4 py-2 rounded-lg relative group hover:bg-stone-800/30 hover:shadow-[0_0_20px_rgba(236,72,153,0.3),0_0_40px_rgba(34,211,238,0.2)] before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-pink-500/10 before:via-cyan-400/10 before:to-pink-500/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
+                className="flex items-center space-x-2 text-stone-300 hover:text-white transition-all duration-300 px-4 py-2 rounded-lg relative group hover:bg-stone-800/30 hover:shadow-[0_0_20px_rgba(249,115,22,0.3),0_0_40px_rgba(34,211,238,0.2)] before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-r before:from-orange-500/10 before:via-cyan-400/10 before:to-orange-500/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
               >
                 {item.icon}
                 <span className="text-sm font-medium">{item.name}</span>
