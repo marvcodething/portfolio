@@ -155,6 +155,12 @@ const FilmPage = () => {
 
   return (
     <div className="bg-stone-50">
+      {/* Preload all film images */}
+      <div aria-hidden className="absolute w-0 h-0 overflow-hidden pointer-events-none">
+        {films.filter(f => f.image).map(f => (
+          <Image key={f.id} src={f.image} alt="" width={1} height={1} priority />
+        ))}
+      </div>
       {/* Navbar */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}
