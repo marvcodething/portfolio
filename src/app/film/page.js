@@ -37,7 +37,7 @@ const films = [
   { id: 10, title: "The Wacumentary",                                category: "documentary",    description: "Documentary about the Occidental College Women's Ultimate Frisbee Team.", image: wacShot,    link: "https://vimeo.com/1123339978?share=copy&fl=sv&fe=ci" },
   // 2024
   { id: 11, title: "NBA 2K and the 'Black Experience'",              category: "video essays",   description: "A video essay on neo-minstrelsy and NBA 2K.", image: kShot,      link: "https://drive.google.com/file/d/1X9PeIMATPpNAjHdT1W3a9bZd7Pi8QJ1X/view?usp=sharing" },
-  { id: 12, title: "Stomping Ground",                                category: "documentary",    description: "Interactive documentary on dorm life at Occidental College.", image: stompShot,  link: "stomping.site" },
+  { id: 12, title: "Stomping Ground",                                category: "documentary",    description: "Interactive documentary on dorm life at Occidental College.", image: stompShot,  link: "https://www.stomping.site" },
   { id: 13, title: "I Learned How to DJ In A Week",                  category: "documentary",    description: "Short clips of me yapping about DJing, and how I learned how to DJ in a week.", image: djshot,    link: "https://youtu.be/DoEjtSyfHEg" },
   { id: 14, title: "Dead Space?",                                    category: "documentary",    description: "Observational documentary centered upon Sycamore Glen on the Occidental College campus. By Marvin Romero and Sloan Whitliff.", image: deadspace, link: "https://youtu.be/5yD2cbRI6a4" },
   // undated
